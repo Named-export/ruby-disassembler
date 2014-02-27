@@ -111,5 +111,6 @@ end
 @instructions['3d'] = Instruction.new 'CMP', 'EAX', 'imm32', '/d', false
 @instructions['39'] = Instruction.new 'CMP', 'r/m', 'r', '/r', true
 @instructions['3b'] = Instruction.new 'CMP', 'r', 'r/m', '/r', true
-
+#popcnt
+@multibyte_opcodes << 'f3'
 

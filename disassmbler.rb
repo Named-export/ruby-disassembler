@@ -82,10 +82,11 @@ while @counter != @hex.length
   end
   if !ins.nil?
     address = hex.ljust(40)
-    instruction = ins.first.ljust(20)
+    instruction = ins.first.ljust(40)
     puts "#{location}#{address}#{instruction}"
   else
-    puts "#{location}invalid instruction"
+    instruction = "#{@hex[@counter - 1]}".ljust(40)
+    puts "#{location}#{instruction}invalid instruction "
   end
 end
 

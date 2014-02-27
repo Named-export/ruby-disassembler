@@ -52,6 +52,60 @@ def multibyte_opcodes opcode, instruction_address
         instruction = (@hex[instruction_address+1].hex - 200)
         return ["BSWAP #{@operand[instruction]}", true, 2]
       end
+    when 'f3' #popcnt
+      next_byte = @hex[instruction_address+1]
+      case next_byte
+        when '0f'
+          next_byte = @hex[instruction_address+2]
+          case next_byte
+            when 'b8'
+              instruction_address += 2
+              modrm = @hex[instruction_address + 1]
+              operands = @bits[instruction_address + 1]
+              mod = operands[0..1]
+              operator = 'POPCNT'
+              case mod
+                when '00'
+                  @zz.each_with_index do |column, i|
+                    if column.include?(modrm)
+                      index = column.index(modrm)
+                      if index == 5
+                        mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                        return ["#{operator} \t#{@operand[i]}, [0x#{mem}]", true, 8]
+                      else
+                        return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}]", true, 4]
+                      end
+                    end
+                  end
+                when '01'
+                  @zo.each_with_index do |column, i|
+                    if column.include?(modrm)
+                      index = column.index(modrm)
+                      mem = "#{@hex[instruction_address + 2]}"
+                      return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}]", true, 5]
+                    end
+                  end
+                when '10'
+                  @oz.each_with_index do |column, i|
+                    if column.include?(modrm)
+                      index = column.index(modrm)
+                      mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                      return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}]", true, 8]
+                    end
+                  end
+                when '11'
+                  @oo.each_with_index do |column, i|
+                    if column.include?(modrm)
+                      index = column.index(modrm)
+                      # test with add (03 c0) should be ADD eax, eax
+                      return ["#{operator} \t#{@operand[i]}, #{@operand[index]}", true, 4]
+                    end
+                  end
+              end
+              puts "#{mod}"
+          end
+      end
+      return["Invalid opcode:#{opcode}", false, 1]
   end
 end
 
@@ -282,7 +336,7 @@ def decode_modrm instruction_address, opcode, operator_override
         if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r32, r/m32 = 03/r
           index = column.index(modrm)
           # test with add (03 c0) should be ADD eax, eax
-          return ["#{operator} \t#{@operand[i]}, #{@operand[index]}", true, 6]
+          return ["#{operator} \t#{@operand[i]}, #{@operand[index]}", true, 2]
         end
       end
   end

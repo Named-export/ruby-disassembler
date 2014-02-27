@@ -49,6 +49,7 @@ add [edi+0x78],ecx
 add eax,[eax+0x78]
 add ecx, [edi+0x78]
 
+
 add [eax+0x12345678], eax
 add [edi+0x12345678], ecx
 
@@ -219,3 +220,12 @@ cmp eax, [eax+0x12345678]
 cmp ecx, [edx+0x34567890]
 
 cmp esi, edi
+
+
+popcnt edi, dword [edi]
+popcnt eax, dword [eax]
+popcnt eax, [0x12455678]
+popcnt eax, dword [eax+0x78]
+popcnt eax,DWORD[eax+0x12345678]
+popcnt eax, eax
+add eax, eax
