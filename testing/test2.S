@@ -157,3 +157,65 @@ pop eax
 pop ecx
 pop ebp
 pop esp
+
+cmp eax,0x11223344
+cmp dword [eax], 0x11223344
+cmp dword [ecx], 0x11223344
+cmp dword [edx], 0x11223344
+cmp dword [ebx], 0x11223344
+cmp dword [esi], 0x11223344
+cmp dword [edi], 0x11223344
+cmp dword [0x11223344], 0x55667788 
+
+cmp dword [eax+0x08],0x11223344
+
+cmp dword [eax+0x11223344],0x55667788 
+cmp dword [ecx+0x11223344],0x55667788 
+cmp dword [edx+0x11223344],0x55667788 
+cmp dword [ebx+0x11223344],0x55667788 
+cmp dword [esi+0x11223344],0x55667788 
+
+cmp eax,0x11223344 
+cmp ecx,0x11223344
+cmp edx,0x11223344
+cmp ebx,0x11223344
+cmp esi,0x11223344
+cmp edi,0x11223344
+
+
+cmp [eax],eax
+cmp [eax],ecx
+cmp [eax],edx
+cmp [eax],ebx
+cmp [eax],esi
+cmp [eax],edi
+
+cmp eax,[eax]
+cmp ecx,[eax]
+cmp edx,[eax]
+cmp ebx,[eax]
+cmp esi,[eax]
+cmp edi,[eax]
+
+cmp [0x12345678], eax
+
+cmp [eax+0x78],eax 
+cmp [edi+0x78],ecx 
+
+cmp eax,[eax+0x78]
+cmp ecx, [edi+0x78]
+
+cmp [eax+0x12345678], eax
+cmp [edi+0x12345678], ecx
+
+cmp esp, ebx
+cmp eax, esi
+cmp ebp, esi
+
+cmp eax, [0x12345678]
+cmp ecx, [0x23455678]
+
+cmp eax, [eax+0x12345678]
+cmp ecx, [edx+0x34567890]
+
+cmp esi, edi

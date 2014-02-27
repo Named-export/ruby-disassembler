@@ -107,7 +107,9 @@ end
 #pop 8f 58
 @extended_opcodes << '8f'
 @single_byte_opcodes << '58' << '59' << '5a' << '5b' << '5c' << '5d' << '5e' << '5f'
-
-
+#cmp 3d 81 39 3b
+@instructions['3d'] = Instruction.new 'CMP', 'EAX', 'imm32', '/d', false
+@instructions['39'] = Instruction.new 'CMP', 'r/m', 'r', '/r', true
+@instructions['3b'] = Instruction.new 'CMP', 'r', 'r/m', '/r', true
 
 
