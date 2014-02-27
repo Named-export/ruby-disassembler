@@ -250,3 +250,13 @@ push eax
 push ecx
 push edx
 push 0x12345678
+
+idiv dword[eax]
+idiv dword[ecx]
+idiv dword[0x12345678]
+idiv dword[edx+0x78]
+idiv dword[eax+0x12345678]
+idiv dword[edx+0x12345678]
+idiv eax
+idiv ecx
+idiv edx

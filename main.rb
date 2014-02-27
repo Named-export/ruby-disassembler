@@ -120,3 +120,4 @@ end
 #push ff 50 68
 @single_byte_opcodes << '50' << '51' << '52' << '53' << '54' << '55' << '56' << '57'
 @special_cases << '68'
+#idiv f7/7

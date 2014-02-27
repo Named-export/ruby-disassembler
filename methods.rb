@@ -175,6 +175,8 @@ def extended_opcodes opcode, instruction_address
       case reg
         when '010'
           operator = 'NOT'
+        when '111'
+          operator = 'IDIV'
       end
       case mod # rm can be 0..7
         when '00'
