@@ -33,5 +33,6 @@ end
 
 # add
 @instructions['05'] = Instruction.new 'ADD', 'EAX', 'imm32', '/d', false
+@instructions['01'] = Instruction.new 'ADD', 'r/m', 'r', '/r', true
 
 

@@ -1,4 +1,6 @@
-require  './main.rb'
+require './main.rb'
+require './methods.rb'
+
 #set up columns for table 2-2 page 33 64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf
 @zz_column_eax = %w(00 01 02 03 04 05 06 07)
 @zz_column_ecx = %w(08 09 0a 0b 0c 0d 0e 0f)
@@ -31,6 +33,8 @@ require  './main.rb'
 @oz_column_esi = %w(b0 b1 b2 b3 b4 b5 b6 b7)
 @oz_column_edi = %w(b8 b9 ba bb bc bd be bf)
 
+@oz = [@oz_column_eax, @oz_column_ecx, @oz_column_edx, @oz_column_ebx, @oz_column_esp, @oz_column_ebp, @oz_column_esi, @oz_column_edi]
+
 @oo_column_eax = %w(c0 c1 c2 c3 c4 c5 c6 c7)
 @oo_column_ecx = %w(c8 c9 ca cb cc cd ce cf)
 @oo_column_edx = %w(d0 d1 d2 d3 d4 d5 d6 d7)
@@ -39,6 +43,8 @@ require  './main.rb'
 @oo_column_ebp = %w(e8 e9 ea eb ec ed ee ef)
 @oo_column_esi = %w(f0 f1 f2 f3 f4 f5 f6 f7)
 @oo_column_edi = %w(f8 f9 fa fb fc fd fe ff)
+
+@oo = [@oo_column_eax, @oo_column_ecx, @oo_column_edx, @oo_column_ebx, @oo_column_esp, @oo_column_ebp, @oo_column_esi, @oo_column_edi]
 
 @operand = %w(EAX ECX EDX EBX ESP EBP ESI EDI)
 
@@ -51,62 +57,90 @@ def disassemble instruction_address
   opcode = @hex[instruction_address]
   # if instruction a single byte instruction then call single byte
   if @single_byte_opcodes.include?(opcode)
-    return single_byte_disassemble opcode, instruction_address
+    return single_byte opcode, instruction_address
   end
   # if instruction is extended (meaning /number with opcode) then call extended opcode
   if @extended_opcodes.include?(opcode)
-    return extended_opcodes_disassemble opcode, instruction_address
+    return extended_opcodes opcode, instruction_address
   end
-  # if instruction is encoded regular modrm call modrm
+  # if we have an instruction for it
   if !@instructions[opcode].nil?
-    return decode_modrm instruction_address, operator, opcode
+    # if EAX is the value of either one of the src or dest then call default EAX
+    if @instructions[opcode].src == "EAX" or @instructions[opcode].dest == "EAX"
+      return default_eax opcode, instruction_address
+    else
+      # if instruction is encoded regular modrm call modrm
+      return decode_modrm instruction_address, opcode, nil
+    end
   end
 
 end
 
-def decode_modrm instruction_address, operator, opcode
+def decode_modrm instruction_address, opcode, operator_override
   operands = @bits[instruction_address + 1]
   mod = operands[0..1]
+  modrm = @hex[instruction_address + 1]
+  instruction = @instructions[opcode]
+  operator = instruction.operator
   case mod
     when '00'
       @zz.each_with_index do |column, i|
-        if column.include?(modrm) and instruction.src == 'r/m' and instruction.dest == 'r' # if add r32, r/m32  = 03/r
-          index = column.index(modrm)
-          if index == 5 # this is a memory reference not register test with add (03 05 78 56 34 12) should be [eax], 0x12345678
-            mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
-            return ["#{@instructions[opcode]} #{@operand[i]}, [#{mem}]", true, 2]
-          else
-            return ["#{@instructions[opcode]} #{operand[i]}, [#{@registers[operand[index]]}]", true, 2] # test with add (03 06) should be add eax, [esi]
-          end
-        end
-        if column.include?(modrm) and instruction.src == 'r' and instruction.dest = 'r/m' # if add r/m32, r32 = 01/r
+        if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r/m32, r32  = 01/r
           index = column.index(modrm)
           if index == 5 # this is a memory reference not register test with add (01 05 78 56 34 12) should be [0x12345678], eax
             mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
-            return ["#{@instructions[opcode]} [#{mem}], #{@operand[i]} ", true, 2]
+            return ["#{operator} \t[0x#{mem}],#{@operand[i]}", true, 6]
           else
-            return ["#{@instructions[opcode]} #{@operand[i]}, [#{@registers[@operand[index]]}]", true, 2] # test with add (01 06) should be add [esi], eax
+            return ["#{operator} \t[#{@operand[index]}], #{@operand[i]}", true, 2] # test with add (01 30) should be add [eax], esi
+          end
+        end
+        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r/m32, r32 = 01/r
+          index = column.index(modrm)
+          if index == 5 # this is a memory reference not register test with add (01 05 78 56 34 12) should be [0x12345678], eax
+            mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+            return ["#{operator} \t[#{mem}], #{@operand[i]} ", true, 5]
+          else
+            return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}]", true, 2] # test with add (01 06) should be add [esi], eax
           end
         end
       end
     when '01'
       @zo.each_with_index do |column, i|
-        if column.include?(modrm) and instruction.src == 'r/m' and instruction.dest == 'r' # if add r32, r/m32  = 03/r
+        if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r32, r/m32  = 01/r
           index = column.index(modrm)
           mem = "#{@hex[instruction_address + 2]}"
-          #test with add (03 40 78) should be eax, [eax+0x78]
-          return ["#{@instructions[opcode]} #{@operand[i]}, [#{@operand[index]}+#{mem}]", true, 3]
+          return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{@operand[i]}", true, 3]#test with add (01 40 78) should be add [eax+0x78], eax
         end
-        if column.include?(modrm) and instruction.src == 'r' and instruction.dest = 'r/m' # if add r/m32, r32 = 01/r
+        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r/m32, r32 = 01/r
           index = column.index(modrm)
           # test with add (01 40 78) should be [eax, 0x78], eax
           mem = "#{@hex[instruction_address + 2]}"
-          return ["#{@instructions[opcode]} [#{@operand[index]}+#{mem}], #{@operand[i]} ", true, 3]
+          return ["#{operator} [#{@operand[index]}+0x#{mem}], #{@operand[i]} ", true, 3]
         end
       end
     when '10'
+      @oz.each_with_index do |column, i|
+        if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r32, r/m32  = 01/r
+          index = column.index(modrm)
+          mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+          return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{@operand[i]}", true, 6]#test with add (01 80 78 56 34 12) should be add [eax+0x12345678], eax
+        end
+        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r/m32, r32 = 01/r
+          index = column.index(modrm)
+          # test with add (01 40 78) should be [eax, 0x78], eax
+          mem = "#{@hex[instruction_address + 2]}"
+          return ["#{operator} [#{@operand[index]}+0x#{mem}], #{@operand[i]} ", true, 3]
+        end
+      end
     when '11'
+      @oo.each_with_index do |column, i|
+        if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r32, r/m32  = 01/r
+          index = column.index(modrm)
+          return ["#{operator} \t#{@operand[index]}, #{@operand[i]}", true, 2]#test with add (01 dc) should be add esp, ebx
+        end
+      end
   end
+  return["Invalid opcode:#{opcode}", false, 1]
 end
 
 
