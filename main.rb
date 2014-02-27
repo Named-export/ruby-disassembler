@@ -32,6 +32,7 @@ end
 @instructions = {}
 @single_byte_opcodes = []
 @extended_opcodes = []
+@multibyte_opcodes = []
 
 # add 05 81 01 03
 @instructions['05'] = Instruction.new 'ADD', 'EAX', 'imm32', '/d', false
@@ -47,5 +48,7 @@ end
 #not f7
 @extended_opcodes << 'f7'
 #bswap
+@multibyte_opcodes << '0f'
+
 
 

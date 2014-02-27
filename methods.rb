@@ -11,7 +11,18 @@ def default_eax opcode, instruction_address
   end
   return["Invalid opcode:#{opcode}", false, 1]
 end
-
+# handles the cases where the there are multibyte opcodes
+def multibyte_opcodes opcode, instruction_address
+  case opcode
+    when '0f'
+      bswap = %w(c8 c9 ca cb cc cd ce cf)
+      if bswap.include?(@hex[instruction_address+1])
+         instruction = (@hex[instruction_address+1].hex - 200)
+         return ["BSWAP #{@operand[instruction]}", true, 2]
+      end
+  end
+end
+# handles the cases where the opcode has a /digit
 def extended_opcodes opcode, instruction_address
   operands = @bits[instruction_address + 1]
   mod = operands[0..1]

@@ -94,3 +94,8 @@ not dword[edx+0x12345678]
 not eax
 not ecx
 not edx
+bswap eax
+bswap ecx
+bswap edi
+bswap edi
+bswap esi

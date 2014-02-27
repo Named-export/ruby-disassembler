@@ -60,6 +60,9 @@ def disassemble instruction_address
     return extended_opcodes opcode, instruction_address
   end
 
+  if @multibyte_opcodes.include?(opcode)
+    return multibyte_opcodes opcode, instruction_address
+  end
   # if we have an instruction for it
   if !@instructions[opcode].nil?
     # if EAX is the value of either one of the src or dest then call default EAX
