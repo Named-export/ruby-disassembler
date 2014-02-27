@@ -1,6 +1,6 @@
 def jumps opcode, instruction_address
   case opcode
-    when 'e8'# call
+    when 'e8' # call
       #take starting address plus 0x5 (length of instruction) + value in next 4 bytes
       mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}".hex
       bits = mem.to_s(2)
@@ -22,6 +22,7 @@ def jumps opcode, instruction_address
 
   return["Jumps Invalid opcode:#{opcode}", false, 1]
 end
+
 # handles the special cases of default EAX in one of the src or dest
 def default_eax opcode, instruction_address
   case opcode
@@ -38,17 +39,19 @@ def default_eax opcode, instruction_address
   end
   return["Invalid opcode:#{opcode}", false, 1]
 end
+
 # handles the cases where the there are multibyte opcodes
 def multibyte_opcodes opcode, instruction_address
   case opcode
     when '0f'
       bswap = %w(c8 c9 ca cb cc cd ce cf)
       if bswap.include?(@hex[instruction_address+1])
-         instruction = (@hex[instruction_address+1].hex - 200)
-         return ["BSWAP #{@operand[instruction]}", true, 2]
+        instruction = (@hex[instruction_address+1].hex - 200)
+        return ["BSWAP #{@operand[instruction]}", true, 2]
       end
   end
 end
+
 # handles the cases where the opcode has a /digit
 def extended_opcodes opcode, instruction_address
   operands = @bits[instruction_address + 1]
@@ -151,6 +154,48 @@ def extended_opcodes opcode, instruction_address
             end
           end
       end
+    when '8f'
+      case reg
+        when '000'
+          operator = 'POP'
+      end
+      case mod # rm can be 0..7
+        when '00'
+          @zz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              if index == 5
+                mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                return ["#{operator} \t[0x#{mem}]", true, 6] # format should be operator [next 4 bytes of mem]
+              else
+                return ["#{operator} \t[#{@operand[index]}]", true, 2] # format should be operator [reg], next 4 bytes: test with 81 00 44 33 22 11 = add [eax], 11223344
+              end
+            end
+          end
+        when '01'
+          @zo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}]", true, 3] # format should be operator [reg+1byte],
+            end
+          end
+        when '10'
+          @oz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}]", true, 6] # format should be operator [reg+1byte], next 8 bytes: test with 81 80 44 33 22 11 88 77 66 55 = add dword [eax+0x11223344], 0x55667788
+            end
+          end
+        when '11'
+          @oo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              return ["#{operator} \t#{@operand[index]}", true, 2] # format should be operator [reg+8bytes], next 8 bytes: test with 81 C0 44 33 22 11 = add eax, 0x11223344
+            end
+          end
+      end
   end
   return ["extended opcodes, nothing caught", false, 1]
 end
@@ -159,6 +204,11 @@ def single_byte opcode, instruction_address
   case opcode
     when '90' #handle nop
       return ["NOP", true, 1]
+  end
+  if %w(58 59 5a 5b 5c 5d 5e 5f).include?(opcode) # handle pop
+    #its a +rd pop operation
+    instruction = (opcode.hex - 88)
+    return ["POP \t#{@operand[instruction]}", true, 1]
   end
   return ["single byte opcodes, nothing caught", false, 1]
 end
@@ -196,12 +246,12 @@ def decode_modrm instruction_address, opcode, operator_override
         if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r/m32, r32  = 01/r
           index = column.index(modrm)
           mem = "#{@hex[instruction_address + 2]}"
-          return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{@operand[i]}", true, 3]#test with add (01 40 78) should be add [eax+0x78], eax
+          return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{@operand[i]}", true, 3] #test with add (01 40 78) should be add [eax+0x78], eax
         end
         if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r32, r/m32 = 03/r
           index = column.index(modrm)
           mem = "#{@hex[instruction_address + 2]}"
-          return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}]", true, 3]# test with add (03 40 78) should be add eax,[eax+0x78]
+          return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}]", true, 3] # test with add (03 40 78) should be add eax,[eax+0x78]
         end
       end
     when '10'
@@ -209,7 +259,7 @@ def decode_modrm instruction_address, opcode, operator_override
         if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r/m32, r32  = 01/r
           index = column.index(modrm)
           mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
-          return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{@operand[i]}", true, 6]#test with add (01 80 78 56 34 12) should be add [eax+0x12345678], eax
+          return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{@operand[i]}", true, 6] #test with add (01 80 78 56 34 12) should be add [eax+0x12345678], eax
         end
         if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r32, r/m32 = 03/r
           index = column.index(modrm)
@@ -222,7 +272,7 @@ def decode_modrm instruction_address, opcode, operator_override
       @oo.each_with_index do |column, i|
         if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r32, r/m32  = 01/r
           index = column.index(modrm)
-          return ["#{operator} \t#{@operand[index]}, #{@operand[i]}", true, 2]#test with add (01 dc) should be add esp, ebx
+          return ["#{operator} \t#{@operand[index]}, #{@operand[i]}", true, 2] #test with add (01 dc) should be add esp, ebx
         end
         if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r32, r/m32 = 03/r
           index = column.index(modrm)

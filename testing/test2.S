@@ -147,3 +147,13 @@ or ecx, [0x23455678]
 or eax, [eax+0x12345678]
 or ecx, [edx+0x34567890]
 or esi, edi
+
+pop dword[eax]
+pop dword[edi]
+pop dword[eax+0x78]
+pop dword[eax+0x12345678]
+pop dword[0x12345678]
+pop eax
+pop ecx
+pop ebp
+pop esp

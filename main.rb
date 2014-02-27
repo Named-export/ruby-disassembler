@@ -102,6 +102,12 @@ end
 @instructions['0d'] = Instruction.new 'OR', 'EAX', 'imm32', '/d', false
 @instructions['09'] = Instruction.new 'OR', 'r/m', 'r', '/r', true
 @instructions['0b'] = Instruction.new 'OR', 'r', 'r/m', '/r', true
-#call
+#call e8
 @jump_opcodes << 'e8'
+#pop 8f 58
+@extended_opcodes << '8f'
+@single_byte_opcodes << '58' << '59' << '5a' << '5b' << '5c' << '5d' << '5e' << '5f'
+
+
+
 
