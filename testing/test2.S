@@ -63,3 +63,34 @@ add eax, [eax+0x12345678]
 add ecx, [edx+0x34567890]
 
 add esi, edi
+nop
+nop
+nop
+
+
+and eax,0x12345678 
+and dword [eax],0x12345678 
+and dword [ecx],0x12345678 
+
+and dword [eax+0x12],0x12345678
+and dword [ecx+0x12],0x12345678
+
+and dword [eax+0x34567812],0x34567812
+and eax,0x12345678 
+AND [EAX], EAX
+and [edi], edi
+and [eax+0x78],eax 
+and esi, ebx
+and [eax+0x12345678],ecx
+and [eax+0x12345678], eax
+and [edi+0x12345678], ecx
+
+not dword[eax]
+not dword[ecx]
+not dword[0x12345678]
+not dword[edx+0x78]
+not dword[eax+0x12345678]
+not dword[edx+0x12345678]
+not eax
+not ecx
+not edx

@@ -30,10 +30,22 @@ class Instruction
 end
 
 @instructions = {}
+@single_byte_opcodes = []
+@extended_opcodes = []
 
-# add
+# add 05 81 01 03
 @instructions['05'] = Instruction.new 'ADD', 'EAX', 'imm32', '/d', false
 @instructions['01'] = Instruction.new 'ADD', 'r/m', 'r', '/r', true
 @instructions['03'] = Instruction.new 'ADD', 'r', 'r/m', '/r', true
+@extended_opcodes << '81'
+#nop 90
+@single_byte_opcodes << '90'
+#and 25 81 21 23
+@instructions['25'] = Instruction.new 'AND', 'EAX', 'imm32', '/d', false
+@instructions['21'] = Instruction.new 'AND', 'r/m', 'r', '/r', true
+@instructions['23'] = Instruction.new 'AND', 'r', 'r/m', '/r', true
+#not f7
+@extended_opcodes << 'f7'
+#bswap
 
 
