@@ -49,6 +49,9 @@ end
 @extended_opcodes << 'f7'
 #bswap
 @multibyte_opcodes << '0f'
-
+#or 0d 81 09 0b
+@instructions['0d'] = Instruction.new 'OR', 'EAX', 'imm32', '/d', false
+@instructions['09'] = Instruction.new 'OR', 'r/m', 'r', '/r', true
+@instructions['0b'] = Instruction.new 'OR', 'r', 'r/m', '/r', true
 
 

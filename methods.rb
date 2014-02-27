@@ -8,6 +8,9 @@ def default_eax opcode, instruction_address
     when '25'
       mem = "0x#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"
       return ["AND \tEAX, #{mem}", true, 5]
+    when '0d'
+      mem = "0x#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"
+      return ["OR \tEAX, #{mem}", true, 5]
   end
   return["Invalid opcode:#{opcode}", false, 1]
 end
@@ -37,6 +40,8 @@ def extended_opcodes opcode, instruction_address
           operator = 'ADD'
         when '100'
           operator = 'AND'
+        when '001'
+          operator = 'OR'
       end
       case mod #seven possibilities 000 - 111 for r/m
         when '00'

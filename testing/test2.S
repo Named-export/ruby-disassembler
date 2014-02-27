@@ -99,3 +99,51 @@ bswap ecx
 bswap edi
 bswap edi
 bswap esi
+
+or eax, 0x12345678
+or dword [eax], 0x11223344
+or dword [ecx], 0x11223344
+or dword [edx], 0x11223344
+or dword [ebx], 0x11223344
+or dword [esi], 0x11223344
+or dword [edi], 0x11223344
+or dword [0x11223344], 0x55667788 
+or dword [eax+0x08],0x11223344
+or dword [eax+0x11223344],0x55667788 
+or dword [ecx+0x11223344],0x55667788 
+or dword [edx+0x11223344],0x55667788 
+or dword [ebx+0x11223344],0x55667788 
+or dword [esi+0x11223344],0x55667788 
+or eax,0x11223344 
+or ecx,0x11223344
+or edx,0x11223344
+or ebx,0x11223344
+or esi,0x11223344
+or edi,0x11223344
+or [eax],eax
+or [eax],ecx
+or [eax],edx
+or [eax],ebx
+or [eax],esi
+or [eax],edi
+or eax,[eax]
+or ecx,[eax]
+or edx,[eax]
+or ebx,[eax]
+or esi,[eax]
+or edi,[eax]
+or [0x12345678], eax
+or [eax+0x78],eax 
+or [edi+0x78],ecx 
+or eax,[eax+0x78]
+or ecx, [edi+0x78]
+or [eax+0x12345678], eax
+or [edi+0x12345678], ecx
+or esp, ebx
+or eax, esi
+or ebp, esi
+or eax, [0x12345678]
+or ecx, [0x23455678]
+or eax, [eax+0x12345678]
+or ecx, [edx+0x34567890]
+or esi, edi

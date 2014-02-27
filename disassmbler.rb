@@ -59,7 +59,7 @@ def disassemble instruction_address
   if @extended_opcodes.include?(opcode)
     return extended_opcodes opcode, instruction_address
   end
-
+  #if multibyte opcode
   if @multibyte_opcodes.include?(opcode)
     return multibyte_opcodes opcode, instruction_address
   end
