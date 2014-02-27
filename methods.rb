@@ -255,6 +255,48 @@ def extended_opcodes opcode, instruction_address
             end
           end
       end
+    when 'ff'
+      case reg
+        when '001'
+          operator = 'DEC'
+      end
+      case mod # rm can be 0..7
+        when '00'
+          @zz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              if index == 5
+                mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                return ["#{operator} \t[0x#{mem}]", true, 6] # format should be operator [next 4 bytes of mem]
+              else
+                return ["#{operator} \t[#{@operand[index]}]", true, 2] # format should be operator [reg], next 4 bytes: test with 81 00 44 33 22 11 = add [eax], 11223344
+              end
+            end
+          end
+        when '01'
+          @zo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}]", true, 3] # format should be operator [reg+1byte],
+            end
+          end
+        when '10'
+          @oz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}]", true, 6] # format should be operator [reg+1byte], next 8 bytes: test with 81 80 44 33 22 11 88 77 66 55 = add dword [eax+0x11223344], 0x55667788
+            end
+          end
+        when '11'
+          @oo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              return ["#{operator} \t#{@operand[index]}", true, 2] # format should be operator [reg+8bytes], next 8 bytes: test with 81 C0 44 33 22 11 = add eax, 0x11223344
+            end
+          end
+      end
   end
   return ["extended opcodes, nothing caught", false, 1]
 end
@@ -269,6 +311,12 @@ def single_byte opcode, instruction_address
     instruction = (opcode.hex - 88)
     return ["POP \t#{@operand[instruction]}", true, 1]
   end
+  if %w(48 49 4a 4b 4c 4d 4e 4f).include?(opcode) # handle pop
+    #its a +rd pop operation
+    instruction = (opcode.hex - 72)
+    return ["DEC \t#{@operand[instruction]}", true, 1]
+  end
+
   return ["single byte opcodes, nothing caught", false, 1]
 end
 

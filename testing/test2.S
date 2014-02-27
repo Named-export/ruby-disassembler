@@ -229,3 +229,13 @@ popcnt eax, dword [eax+0x78]
 popcnt eax,DWORD[eax+0x12345678]
 popcnt eax, eax
 add eax, eax
+
+dec dword[eax]
+dec dword[ecx]
+dec dword[0x12345678]
+dec dword[edx+0x78]
+dec dword[eax+0x12345678]
+dec dword[edx+0x12345678]
+dec eax
+dec ecx
+dec edx

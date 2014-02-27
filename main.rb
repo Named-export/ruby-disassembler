@@ -113,4 +113,7 @@ end
 @instructions['3b'] = Instruction.new 'CMP', 'r', 'r/m', '/r', true
 #popcnt
 @multibyte_opcodes << 'f3'
+#dec ff
+@extended_opcodes << 'ff'
+@single_byte_opcodes << '48' << '49' << '4a' << '4b' << '4c' << '4d' << '4e' << '4f'
 
