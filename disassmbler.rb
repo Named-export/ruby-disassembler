@@ -4,6 +4,9 @@ require './methods.rb'
 def disassemble instruction_address
   #get opcode of next byte to be disassembled
   opcode = @hex[instruction_address]
+  if @special_cases.include?(opcode)
+    return special_case opcode, instruction_address
+  end
   # if call or jmp
   if @jump_opcodes.include?(opcode)
     return jumps opcode, instruction_address

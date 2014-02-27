@@ -50,6 +50,7 @@
 @multibyte_opcodes = []
 @jump_opcodes = []
 @labels = []
+@special_cases = []
 
 class Instruction
   attr_accessor :operator, :dest, :src, :modrm, :op_en
@@ -113,7 +114,9 @@ end
 @instructions['3b'] = Instruction.new 'CMP', 'r', 'r/m', '/r', true
 #popcnt
 @multibyte_opcodes << 'f3'
-#dec ff
+#dec ff 48
 @extended_opcodes << 'ff'
 @single_byte_opcodes << '48' << '49' << '4a' << '4b' << '4c' << '4d' << '4e' << '4f'
-
+#push ff 50 68
+@single_byte_opcodes << '50' << '51' << '52' << '53' << '54' << '55' << '56' << '57'
+@special_cases << '68'

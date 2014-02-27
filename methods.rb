@@ -259,6 +259,8 @@ def extended_opcodes opcode, instruction_address
       case reg
         when '001'
           operator = 'DEC'
+        when '110'
+          operator = 'PUSH'
       end
       case mod # rm can be 0..7
         when '00'
@@ -311,11 +313,17 @@ def single_byte opcode, instruction_address
     instruction = (opcode.hex - 88)
     return ["POP \t#{@operand[instruction]}", true, 1]
   end
-  if %w(48 49 4a 4b 4c 4d 4e 4f).include?(opcode) # handle pop
+  if %w(48 49 4a 4b 4c 4d 4e 4f).include?(opcode) # handle dec
     #its a +rd pop operation
     instruction = (opcode.hex - 72)
     return ["DEC \t#{@operand[instruction]}", true, 1]
   end
+  if %w(50 51 52 53 54 55 56 57).include?(opcode) # handle push
+    #its a +rd pop operation
+    instruction = (opcode.hex - 80)
+    return ["PUSH \t#{@operand[instruction]}", true, 1]
+  end
+
 
   return ["single byte opcodes, nothing caught", false, 1]
 end
@@ -390,6 +398,14 @@ def decode_modrm instruction_address, opcode, operator_override
   end
   return["Invalid opcode:#{opcode}", false, 1]
 end
-
+# handles some special cases
+def special_case opcode, instruction_address
+  case opcode
+    when '68'
+      operator = 'PUSH'
+      mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"
+      return ["#{operator} \t0x#{mem}", true, 5]
+  end
+end
 
 

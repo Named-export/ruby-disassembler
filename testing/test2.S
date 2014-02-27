@@ -239,3 +239,14 @@ dec dword[edx+0x12345678]
 dec eax
 dec ecx
 dec edx
+
+push dword[eax]
+push dword[ecx]
+push dword[0x12345678]
+push dword[edx+0x78]
+push dword[eax+0x12345678]
+push dword[edx+0x12345678]
+push eax
+push ecx
+push edx
+push 0x12345678
