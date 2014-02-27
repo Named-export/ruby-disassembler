@@ -94,11 +94,11 @@ def decode_modrm instruction_address, opcode, operator_override
             return ["#{operator} \t[#{@operand[index]}], #{@operand[i]}", true, 2] # test with add (01 30) should be add [eax], esi
           end
         end
-        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r/m32, r32 = 01/r
+        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r32, r/m32 = 03/r
           index = column.index(modrm)
-          if index == 5 # this is a memory reference not register test with add (01 05 78 56 34 12) should be [0x12345678], eax
+          if index == 5 # this is a memory reference not register test with add (03 05 78 56 34) should be add eax, [0x12345678]
             mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
-            return ["#{operator} \t[#{mem}], #{@operand[i]} ", true, 5]
+            return ["#{operator} \t#{@operand[i]}, [0x#{mem}]", true, 6]
           else
             return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}]", true, 2] # test with add (01 06) should be add [esi], eax
           end
@@ -106,30 +106,29 @@ def decode_modrm instruction_address, opcode, operator_override
       end
     when '01'
       @zo.each_with_index do |column, i|
-        if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r32, r/m32  = 01/r
+        if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r/m32, r32  = 01/r
           index = column.index(modrm)
           mem = "#{@hex[instruction_address + 2]}"
           return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{@operand[i]}", true, 3]#test with add (01 40 78) should be add [eax+0x78], eax
         end
-        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r/m32, r32 = 01/r
+        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r32, r/m32 = 03/r
           index = column.index(modrm)
-          # test with add (01 40 78) should be [eax, 0x78], eax
           mem = "#{@hex[instruction_address + 2]}"
-          return ["#{operator} [#{@operand[index]}+0x#{mem}], #{@operand[i]} ", true, 3]
+          return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}]", true, 3]# test with add (03 40 78) should be add eax,[eax+0x78]
         end
       end
     when '10'
       @oz.each_with_index do |column, i|
-        if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r32, r/m32  = 01/r
+        if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r/m32, r32  = 01/r
           index = column.index(modrm)
           mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
           return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{@operand[i]}", true, 6]#test with add (01 80 78 56 34 12) should be add [eax+0x12345678], eax
         end
-        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r/m32, r32 = 01/r
+        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r32, r/m32 = 03/r
           index = column.index(modrm)
-          # test with add (01 40 78) should be [eax, 0x78], eax
-          mem = "#{@hex[instruction_address + 2]}"
-          return ["#{operator} [#{@operand[index]}+0x#{mem}], #{@operand[i]} ", true, 3]
+          # test with add (03 8a 90 78 56 34) should be ADD ECX, [EDX+0x34567890]
+          mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+          return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}]", true, 6]
         end
       end
     when '11'
@@ -137,6 +136,11 @@ def decode_modrm instruction_address, opcode, operator_override
         if column.include?(modrm) and instruction.dest == 'r/m' and instruction.src == 'r' # if add r32, r/m32  = 01/r
           index = column.index(modrm)
           return ["#{operator} \t#{@operand[index]}, #{@operand[i]}", true, 2]#test with add (01 dc) should be add esp, ebx
+        end
+        if column.include?(modrm) and instruction.dest == 'r' and instruction.src = 'r/m' # if add r32, r/m32 = 03/r
+          index = column.index(modrm)
+          # test with add (03 c0) should be ADD eax, eax
+          return ["#{operator} \t#{@operand[i]}, #{@operand[index]}", true, 6]
         end
       end
   end

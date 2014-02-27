@@ -46,9 +46,20 @@ add [0x12345678], eax
 add [eax+0x78],eax 
 add [edi+0x78],ecx 
 
+add eax,[eax+0x78]
+add ecx, [edi+0x78]
+
 add [eax+0x12345678], eax
 add [edi+0x12345678], ecx
 
 add esp, ebx
 add eax, esi
 add ebp, esi
+
+add eax, [0x12345678]
+add ecx, [0x23455678]
+
+add eax, [eax+0x12345678]
+add ecx, [edx+0x34567890]
+
+add esi, edi
