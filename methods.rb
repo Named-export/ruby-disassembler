@@ -52,6 +52,53 @@ def multibyte_opcodes opcode, instruction_address
         instruction = (@hex[instruction_address+1].hex - 200)
         return ["BSWAP #{@operand[instruction]}", true, 2]
       end
+      next_byte = @hex[instruction_address+1]
+      case next_byte
+        when 'af'
+          instruction_address += 1
+          modrm = @hex[instruction_address + 1]
+          operands = @bits[instruction_address + 1]
+          mod = operands[0..1]
+          operator = 'IMUL'
+          case mod
+            when '00'
+              @zz.each_with_index do |column, i|
+                if column.include?(modrm)
+                  index = column.index(modrm)
+                  if index == 5
+                    mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                    return ["#{operator} \t#{@operand[i]}, [0x#{mem}]", true, 7]
+                  else
+                    return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}]", true, 3]
+                  end
+                end
+              end
+            when '01'
+              @zo.each_with_index do |column, i|
+                if column.include?(modrm)
+                  index = column.index(modrm)
+                  mem = "#{@hex[instruction_address + 2]}"
+                  return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}]", true, 4]
+                end
+              end
+            when '10'
+              @oz.each_with_index do |column, i|
+                if column.include?(modrm)
+                  index = column.index(modrm)
+                  mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                  return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}]", true, 7]
+                end
+              end
+            when '11'
+              @oo.each_with_index do |column, i|
+                if column.include?(modrm)
+                  index = column.index(modrm)
+                  # test with add (03 c0) should be ADD eax, eax
+                  return ["#{operator} \t#{@operand[i]}, #{@operand[index]}", true, 3]
+                end
+              end
+          end
+      end
     when 'f3' #popcnt
       next_byte = @hex[instruction_address+1]
       case next_byte
@@ -102,8 +149,9 @@ def multibyte_opcodes opcode, instruction_address
                     end
                   end
               end
-              puts "#{mod}"
           end
+        when 'a7'
+          return ['REPNE CMPS', true, 2]
       end
       return["Invalid opcode:#{opcode}", false, 1]
   end
@@ -127,7 +175,7 @@ def extended_opcodes opcode, instruction_address
         when '001'
           operator = 'OR'
         when '111'
-          operator = "CMP"
+          operator = 'CMP'
       end
       case mod #seven possibilities 000 - 111 for r/m
         when '00'
@@ -177,6 +225,8 @@ def extended_opcodes opcode, instruction_address
           operator = 'NOT'
         when '111'
           operator = 'IDIV'
+        when '101'
+          operator = 'IMUL'
       end
       case mod # rm can be 0..7
         when '00'
@@ -400,6 +450,7 @@ def decode_modrm instruction_address, opcode, operator_override
   end
   return["Invalid opcode:#{opcode}", false, 1]
 end
+
 # handles some special cases
 def special_case opcode, instruction_address
   case opcode
@@ -407,6 +458,53 @@ def special_case opcode, instruction_address
       operator = 'PUSH'
       mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"
       return ["#{operator} \t0x#{mem}", true, 5]
+    when '69' # handle IMUL r32, r/m32, imm32
+      modrm = @hex[instruction_address + 1]
+      operands = @bits[instruction_address + 1]
+      mod = operands[0..1]
+      operator = 'IMUL'
+      case mod
+        when '00'
+          @zz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              if index == 5
+                mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                next_mem = "#{@hex[instruction_address + 9]}#{@hex[instruction_address + 8]}#{@hex[instruction_address + 7]}#{@hex[instruction_address + 6]}"
+                return ["#{operator} \t#{@operand[i]}, [0x#{mem}], 0x#{next_mem}", true, 10]
+              else
+                mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}], 0x#{mem}", true, 6]
+              end
+            end
+          end
+        when '01'
+          @zo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 2]}"
+              next_mem = "#{@hex[instruction_address + 6]}#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}"
+              return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}], 0x#{next_mem} ", true, 7]
+            end
+          end
+        when '10'
+          @oz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+              next_mem = "#{@hex[instruction_address + 9]}#{@hex[instruction_address + 8]}#{@hex[instruction_address + 7]}#{@hex[instruction_address + 6]}"
+              return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}], 0x#{next_mem}", true, 10]
+            end
+          end
+        when '11'
+          @oo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t#{@operand[i]}, #{@operand[index]}, 0x#{mem}", true, 6]
+            end
+          end
+      end
   end
 end
 

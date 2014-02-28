@@ -63,7 +63,7 @@ class Instruction
     #ib, iw and id indicate that one of the operands to the instruction is an immediate value, and that this is to be encoded as a byte,
     @op_en = op_en
 
-    # for instance: add, nop, and, not, bswap, or, call, pop, cmp, popcnt, dec, push, idiv, repne, cmpsd, imul
+    # for instance: add, nop, and, not, bswap, or, call, pop, cmp, popcnt, dec, push, idiv, repne cmpsd, imul
     # retf, inc, retn, jmp, sal, jz/jnz, sar, lea, sbb, mov, shl, movsb/movsd, shr, movzx, test,  mul, xor, neg
     @operator = operator
 
@@ -121,3 +121,7 @@ end
 @single_byte_opcodes << '50' << '51' << '52' << '53' << '54' << '55' << '56' << '57'
 @special_cases << '68'
 #idiv f7/7
+#repne cmpsd f2 a7
+#imul f7/5 0f af 69
+@special_cases << '69'
+

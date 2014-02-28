@@ -260,3 +260,24 @@ idiv dword[edx+0x12345678]
 idiv eax
 idiv ecx
 idiv edx
+
+imul dword[eax]
+imul dword[ecx]
+imul dword[0x12345678]
+imul dword[edx+0x78]
+imul dword[eax+0x12345678]
+imul dword[edx+0x12345678]
+imul eax
+imul ecx
+imul edx
+imul edi, dword [edi]
+imul eax, dword [eax]
+imul eax, [0x12455678]
+imul eax, dword [eax+0x78]
+imul eax,DWORD[eax+0x12345678]
+imul eax, eax
+imul eax,[0x21345678],0x11345678
+imul edx,[ecx],0x21345678 
+imul ebx,[edx+0x78],0x12345678
+imul eax,[eax+0x12345678],0x34456789
+imul esp,edi,0x12345678
