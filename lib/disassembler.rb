@@ -69,22 +69,32 @@ while @counter != @hex.length
   #if instruction is valid
   if !ins.nil? and ins[1] == true
     #increment by size of the instruction
-    ins.last.times do |x|
-      hex << @hex[@counter + x] + ' '
+    begin
+      ins.last.times do |x|
+        if !@hex[@counter + x].nil?
+          hex << @hex[@counter + x] + ' '
+        end
+      end
+    rescue Exception => ex
+      puts "There was an error trying to parse: #{ins.inspect}"
+      puts "Exception: #{ex.inspect}"
+      puts "Exception backtrace: #{ex.backtrace.inspect}"
     end
     @counter += ins.last
   else
     #increment by 1
     @counter += 1
   end
-  #handle printing results to the screen
+  #handle outputting to the screen
   location = "#{address_location.to_i.to_s(16)}:".ljust(10)
   if !ins.nil?
     address = hex.ljust(40)
     instruction = ins.first.ljust(40)
+    #puts "#{location}#{address}#{instruction}\n"
     @output << "#{location}#{address}#{instruction}\n"
   else
     instruction = "#{@hex[@counter - 1]}".ljust(40)
+    #puts "#{location}#{instruction}invalid instruction\n"
     @output << "#{location}#{instruction}invalid instruction\n"
   end
 

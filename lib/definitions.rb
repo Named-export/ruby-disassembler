@@ -55,8 +55,8 @@
 class Instruction
   attr_accessor :operator, :dest, :src, :modrm, :op_en
 
-  def initialize( operator, dest, src,  op_en, modrm)
-     #/digit A digit between 0 and 7 indicates to use only the r/m operand. The reg field provides an extension to the instruction's opcode.
+  def initialize(operator, dest, src, op_en, modrm)
+    #/digit A digit between 0 and 7 indicates to use only the r/m operand. The reg field provides an extension to the instruction's opcode.
     #/r — Indicates that the ModR/M byte of the instruction contains a register operand and an r/m operand.
     #+rd, +ro — A register code, from 0 through 7, added to the hexadecimal byte given at the left of the plus sign to form a single opcode byte. See Table 3-1 for the codes.
     #+i — The number i (which can range from 0 to 7) is added to the hexadecimal byte given at the left of the plus sign to form a single opcode byte.
