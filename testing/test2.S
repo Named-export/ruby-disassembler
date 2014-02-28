@@ -281,3 +281,5 @@ imul edx,[ecx],0x21345678
 imul ebx,[edx+0x78],0x12345678
 imul eax,[eax+0x12345678],0x34456789
 imul esp,edi,0x12345678
+retf 0x3254
+retf

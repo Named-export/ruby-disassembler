@@ -359,6 +359,8 @@ def single_byte opcode, instruction_address
   case opcode
     when '90' #handle nop
       return ["NOP", true, 1]
+    when 'cb'
+      return['RETF', true, 1]
   end
   if %w(58 59 5a 5b 5c 5d 5e 5f).include?(opcode) # handle pop
     #its a +rd pop operation
@@ -458,6 +460,10 @@ def special_case opcode, instruction_address
       operator = 'PUSH'
       mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"
       return ["#{operator} \t0x#{mem}", true, 5]
+    when 'ca'
+      operator = 'RETF'
+      mem = "#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"
+      return ["#{operator} \t0x#{mem}", true, 3]
     when '69' # handle IMUL r32, r/m32, imm32
       modrm = @hex[instruction_address + 1]
       operands = @bits[instruction_address + 1]

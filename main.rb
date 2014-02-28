@@ -124,4 +124,7 @@ end
 #repne cmpsd f2 a7
 #imul f7/5 0f af 69
 @special_cases << '69'
+#retf cb ca
+@single_byte_opcodes << 'cb'
+@special_cases << 'ca'
 
