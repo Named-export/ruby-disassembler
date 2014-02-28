@@ -293,3 +293,6 @@ inc dword[edx+0x12345678]
 inc eax
 inc ecx
 inc edx
+
+retn 0x3254
+retn

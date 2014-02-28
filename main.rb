@@ -129,4 +129,6 @@ end
 @special_cases << 'ca'
 #inc ff/0 40 +rd
 @single_byte_opcodes << '40' << '41' << '42' << '43' << '44' << '45' << '46' << '47'
-
+#retn c3 c2
+@single_byte_opcodes << 'c3'
+@special_cases << 'c2'
