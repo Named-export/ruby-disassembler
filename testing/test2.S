@@ -471,3 +471,12 @@ shr dword [eax+0x12345678],0x1
 shr dword eax, 0x1
 
 movzx ecx, ax
+
+test eax, 0x12345678
+test dword[eax],0x12345678 
+test dword[ecx], 0x12345678
+test dword[0x12345678], 0x12345678
+test dword[edx+0x78], 0x12345678
+test dword[eax+0x12345678], 0x12345678
+test dword[edx+0x12345678], 0x12345678
+test ecx, 0x12345678

@@ -160,3 +160,5 @@ end
 @single_byte_opcodes << 'a5'
 #shr d1/5
 #movzx 0f b7 c8
+#test f7 /0
+@instructions['a9'] = Instruction.new 'TEST', 'EAX', 'imm32', '/d', false

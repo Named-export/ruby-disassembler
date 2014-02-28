@@ -1,4 +1,4 @@
-require './main.rb'
+require './definitions.rb'
 require './methods.rb'
 
 def disassemble instruction_address
