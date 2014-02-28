@@ -99,10 +99,11 @@ end
 @extended_opcodes << 'f7'
 #bswap
 @multibyte_opcodes << '0f'
-#or 0d 81 09 0b
+#or 0d 81 09 0b (83 was used in ex2 so add it)
 @instructions['0d'] = Instruction.new 'OR', 'EAX', 'imm32', '/d', false
 @instructions['09'] = Instruction.new 'OR', 'r/m', 'r', '/r', true
 @instructions['0b'] = Instruction.new 'OR', 'r', 'r/m', '/r', true
+@extended_opcodes << '83'
 #call e8
 @jump_opcodes << 'e8'
 #pop 8f 58

@@ -174,7 +174,7 @@ def multibyte_opcodes opcode, instruction_address
             bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
           end
           if bits[0..0] == '1' # must be a backwards call
-            mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"# rewrite mem as neg
+            mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}" # rewrite mem as neg
             mem = to_signed 32, mem
             address = instruction_address.to_i + 5 + mem
             @labels << address.to_s(16)
@@ -194,7 +194,7 @@ def multibyte_opcodes opcode, instruction_address
             bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
           end
           if bits[0..0] == '1' # must be a backwards call
-            mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"# rewrite mem as neg
+            mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}" # rewrite mem as neg
             mem = to_signed 32, mem
             address = instruction_address.to_i + 5 + mem
             @labels << address.to_s(16)
@@ -607,10 +607,102 @@ def extended_opcodes opcode, instruction_address
           end
         when '11'
       end
-
+    when '83'
+      case reg
+        when '001'
+          operator = 'OR'
+        when '000'
+          operator = 'ADD'
+        when '100'
+          operator = 'AND'
+        when '111'
+          operator = 'CMP'
+        when '011'
+          operator = 'SBB'
+        when '101'
+          operator = 'XOR'
+      end
+      case mod
+        when '00'
+          @zz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              if index == 5 # this is a memory reference not register test with add (01 05 78 56 34 12) should be [0x12345678], eax
+                mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                next_mem = "#{@hex[instruction_address + 6]}"
+                bits = next_mem.hex.to_s(2)
+                while bits.length !=8
+                  bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+                end
+                if bits[0..0] == '1'
+                  next_mem = "ffffff#{@hex[instruction_address + 6]}" #sign extend
+                end
+                return ["#{operator} \t[0x#{mem}], 0x#{next_mem}", true, 7]
+              else
+                mem = "#{@hex[instruction_address + 2]}"
+                bits = mem.hex.to_s(2)
+                while bits.length !=8
+                  bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+                end
+                if bits[0..0] == '1'
+                  mem = "ffffff#{@hex[instruction_address + 2]}" #sign extend
+                end
+                return ["#{operator} \t[#{@operand[index]}], 0x#{mem}", true, 3]
+              end
+            end
+          end
+        when '01'
+          @zo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 2]}"
+              next_mem = "#{@hex[instruction_address + 3]}"
+              bits = next_mem.hex.to_s(2)
+              while bits.length !=8
+                bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+              end
+              if bits[0..0] == '1'
+                next_mem = "ffffff#{@hex[instruction_address + 3]}" #sign extend
+              end
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}], 0x#{next_mem}", true, 4] #test with add (01 40 78) should be add [eax+0x78], eax
+            end
+          end
+        when '10'
+          @oz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+              next_mem = "#{@hex[instruction_address + 6]}"
+              bits = next_mem.hex.to_s(2)
+              while bits.length !=8
+                bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+              end
+              if bits[0..0] == '1'
+                next_mem = "ffffff#{@hex[instruction_address + 6]}" #sign extend
+              end
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}], 0x#{next_mem}", true, 7] #test with add (01 80 78 56 34 12) should be add [eax+0x12345678], eax
+            end
+          end
+        when '11'
+          @oo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              next_mem = "#{@hex[instruction_address + 2]}"
+              bits = next_mem.hex.to_s(2)
+              while bits.length !=8
+                bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+              end
+              if bits[0..0] == '1'
+                next_mem = "ffffff#{@hex[instruction_address + 2]}" #sign extend
+              end
+              return ["#{operator} \t#{@operand[index]}, 0x#{next_mem}", true, 3] #test with add (01 dc) should be add esp, ebx
+            end
+          end
+      end
   end
   return ["extended opcodes, nothing caught", false, 1]
 end
+
 
 def single_byte opcode, instruction_address
   case opcode
@@ -838,7 +930,7 @@ end
 def to_signed length, hex
   mid = 2**(length-1)
   max_unsigned = 2**length
-  do_signed = proc {|n| (n>=mid) ? n - max_unsigned : n}
+  do_signed = proc { |n| (n>=mid) ? n - max_unsigned : n }
 
- return do_signed[hex.to_i(16)]
+  return do_signed[hex.to_i(16)]
 end

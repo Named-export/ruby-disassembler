@@ -1,5 +1,5 @@
-require './definitions.rb'
-require './methods.rb'
+require_relative './definitions.rb'
+require_relative './methods.rb'
 
 def disassemble instruction_address
   #get opcode of next byte to be disassembled
@@ -59,8 +59,6 @@ rescue Exception => ex
   puts "Exception backtrace: #{ex.backtrace.inspect}"
 end
 # step three: begin linear sweep
-puts @hex.inspect
-# puts @bits.inspect
 @counter = 0
 @labels = []
 @output = ''
@@ -79,18 +77,14 @@ while @counter != @hex.length
     #increment by 1
     @counter += 1
   end
+  #handle printing results to the screen
   location = "#{address_location.to_i.to_s(16)}:".ljust(10)
-# if @labels.include?(location.split(':').first)
-#   @output << "Label_0x#{location}\n"
-# end
   if !ins.nil?
     address = hex.ljust(40)
     instruction = ins.first.ljust(40)
-    puts "#{location}#{address}#{instruction}\n"
     @output << "#{location}#{address}#{instruction}\n"
   else
     instruction = "#{@hex[@counter - 1]}".ljust(40)
-    puts "#{location}#{instruction}invalid instruction\n"
     @output << "#{location}#{instruction}invalid instruction\n"
   end
 
@@ -104,5 +98,3 @@ end
   @labeled_output << line << "\n"
 end
 puts @labeled_output
-
-
