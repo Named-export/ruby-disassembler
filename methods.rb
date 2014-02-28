@@ -198,6 +198,13 @@ def multibyte_opcodes opcode, instruction_address
             @labels << address.to_s(16)
             return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 6]
           end
+        when 'b7'
+          instruction_address += 1
+          case @hex[instruction_address + 1]
+            when 'c8'
+              operator = 'MOVZX'
+              return ["#{operator} ECX, AX", true, 3]
+          end
       end
     when 'f3' #popcnt
       next_byte = @hex[instruction_address+1]

@@ -469,3 +469,5 @@ shr dword[eax], 0x1
 shr dword [eax+0x78],0x1  
 shr dword [eax+0x12345678],0x1 
 shr dword eax, 0x1
+
+movzx ecx, ax

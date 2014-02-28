@@ -159,3 +159,4 @@ end
 @single_byte_opcodes << 'a4'
 @single_byte_opcodes << 'a5'
 #shr d1/5
+#movzx 0f b7 c8
