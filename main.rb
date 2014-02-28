@@ -145,3 +145,7 @@ end
 @extended_opcodes << 'd1'
 #lea
 @special_cases << '8d'
+#sbb 1d 81/3
+@instructions['1d'] = Instruction.new 'SBB', 'EAX', 'imm32', '/d', false
+@instructions['19'] = Instruction.new 'SBB', 'r/m', 'r', '/r', true
+@instructions['1b'] = Instruction.new 'SBB', 'r', 'r/m', '/r', true

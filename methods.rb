@@ -96,6 +96,9 @@ def default_eax opcode, instruction_address
     when '3d'
       mem = "0x#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"
       return ["CMP \tEAX, #{mem}", true, 5]
+    when '1d'
+      mem = "0x#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"
+      return ["SBB \tEAX, #{mem}", true, 5]
   end
   return["Invalid opcode:#{opcode}", false, 1]
 end
@@ -273,6 +276,8 @@ def extended_opcodes opcode, instruction_address
           operator = 'OR'
         when '111'
           operator = 'CMP'
+        when '011'
+          operator = 'SBB'
       end
       case mod #seven possibilities 000 - 111 for r/m
         when '00'

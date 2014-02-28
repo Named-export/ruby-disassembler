@@ -342,3 +342,65 @@ lea eax,[0x21345678]
 lea edx,[ecx]
 lea ebx,[edx+0x78]
 lea eax,[eax+0x12345678]
+
+sbb eax,0x11223344
+sbb dword [eax], 0x11223344
+sbb dword [ecx], 0x11223344
+sbb dword [edx], 0x11223344
+sbb dword [ebx], 0x11223344
+sbb dword [esi], 0x11223344
+sbb dword [edi], 0x11223344
+sbb dword [0x11223344], 0x55667788 
+
+sbb dword [eax+0x08],0x11223344
+
+sbb dword [eax+0x11223344],0x55667788 
+sbb dword [ecx+0x11223344],0x55667788 
+sbb dword [edx+0x11223344],0x55667788 
+sbb dword [ebx+0x11223344],0x55667788 
+sbb dword [esi+0x11223344],0x55667788 
+
+sbb eax,0x11223344 
+sbb ecx,0x11223344
+sbb edx,0x11223344
+sbb ebx,0x11223344
+sbb esi,0x11223344
+sbb edi,0x11223344
+
+
+sbb [eax],eax
+sbb [eax],ecx
+sbb [eax],edx
+sbb [eax],ebx
+sbb [eax],esi
+sbb [eax],edi
+
+sbb eax,[eax]
+sbb ecx,[eax]
+sbb edx,[eax]
+sbb ebx,[eax]
+sbb esi,[eax]
+sbb edi,[eax]
+
+sbb [0x12345678], eax
+
+sbb [eax+0x78],eax 
+sbb [edi+0x78],ecx 
+
+sbb eax,[eax+0x78]
+sbb ecx, [edi+0x78]
+
+sbb [eax+0x12345678], eax
+sbb [edi+0x12345678], ecx
+
+sbb esp, ebx
+sbb eax, esi
+sbb ebp, esi
+
+sbb eax, [0x12345678]
+sbb ecx, [0x23455678]
+
+sbb eax, [eax+0x12345678]
+sbb ecx, [edx+0x34567890]
+
+sbb esi, edi
