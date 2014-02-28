@@ -482,3 +482,57 @@ mul dword[edx+0x12345678]
 mul eax
 mul ecx
 mul edx
+
+xor eax,0x11223344 
+xor ecx,0x11223344
+xor edx,0x11223344
+xor ebx,0x11223344
+xor esi,0x11223344
+xor edi,0x11223344
+xor eax,0x11223344
+xor dword [eax], 0x11223344
+xor dword [ecx], 0x11223344
+xor dword [edx], 0x11223344
+xor dword [ebx], 0x11223344
+xor dword [esi], 0x11223344
+xor dword [edi], 0x11223344
+xor dword [0x11223344], 0x55667788 
+xor dword [eax+0x08],0x11223344
+xor dword [eax+0x11223344],0x55667788 
+xor dword [ecx+0x11223344],0x55667788 
+xor dword [edx+0x11223344],0x55667788 
+xor dword [ebx+0x11223344],0x55667788 
+xor dword [esi+0x11223344],0x55667788 
+xor eax,0x11223344 
+xor ecx,0x11223344
+xor edx,0x11223344
+xor ebx,0x11223344
+xor esi,0x11223344
+xor edi,0x11223344
+xor [eax],eax
+xor [eax],ecx
+xor [eax],edx
+xor [eax],ebx
+xor [eax],esi
+xor [eax],edi
+xor eax,[eax]
+xor ecx,[eax]
+xor edx,[eax]
+xor ebx,[eax]
+xor esi,[eax]
+xor edi,[eax]
+xor [0x12345678], eax
+xor [eax+0x78],eax 
+xor [edi+0x78],ecx 
+xor eax,[eax+0x78]
+xor ecx, [edi+0x78]
+xor [eax+0x12345678], eax
+xor [edi+0x12345678], ecx
+xor esp, ebx
+xor eax, esi
+xor ebp, esi
+xor eax, [0x12345678]
+xor ecx, [0x23455678]
+xor eax, [eax+0x12345678]
+xor ecx, [edx+0x34567890]
+xor esi, edi

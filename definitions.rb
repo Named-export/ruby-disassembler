@@ -164,3 +164,7 @@ end
 @instructions['a9'] = Instruction.new 'TEST', 'EAX', 'imm32', '/d', false
 @instructions['85'] = Instruction.new 'TEST', 'r/m', 'r', '/r', true
 #mul f7 /4
+#xor 35 81 /6
+@instructions['35'] = Instruction.new 'XOR', 'EAX', 'imm32', '/d', false
+@instructions['31'] = Instruction.new 'XOR', 'r/m', 'r', '/r', true
+@instructions['33'] = Instruction.new 'XOR', 'r', 'r/m', '/r', true
