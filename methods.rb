@@ -456,6 +456,8 @@ def extended_opcodes opcode, instruction_address
       case reg
         when '100'
           operator = 'SHL'
+        when '111'
+          operator = 'SAR'
       end
       case mod # rm can be 0..7
         when '00'
@@ -664,7 +666,51 @@ def special_case opcode, instruction_address
             end
           end
       end
+    when '8d'
+      modrm = @hex[instruction_address + 1]
+      operands = @bits[instruction_address + 1]
+      mod = operands[0..1]
+      operator = 'LEA'
+      case mod
+        when '00'
+          @zz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              if index == 5
+                mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                return ["#{operator} \t#{@operand[i]}, [0x#{mem}]", true, 6]
+              else
+                return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}]", true, 2]
+              end
+            end
+          end
+        when '01'
+          @zo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}] ", true, 3]
+            end
+          end
+        when '10'
+          @oz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t#{@operand[i]}, [#{@operand[index]}+0x#{mem}]", true, 6]
+            end
+          end
+        when '11'
+          @oo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t#{@operand[i]}, #{@operand[index]}, 0x#{mem}", true, 6]
+            end
+          end
+      end
   end
+  return["Invalid opcode:#{opcode}", false, 1]
 end
 
 #takes length number of bits and string of hex; returns signed hex string https://www.ruby-forum.com/topic/138200

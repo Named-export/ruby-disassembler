@@ -141,3 +141,7 @@ end
 @jump_opcodes << '74'
 #jnz 75 [0f 85]
 @jump_opcodes << '75'
+#sar d1/7
+@extended_opcodes << 'd1'
+#lea
+@special_cases << '8d'

@@ -321,4 +321,24 @@ jz poop
 jnz 0x5
 jnz poop
 jnz 0xd0ffffff
+shr dword[eax], 0x1
+shr dword [eax+0x78],0x1  
+shr dword [eax+0x12345678],0x1 
+shr dword eax, 0x1
 
+lea eax, [eax]
+lea eax, [ecx]
+lea eax, [0x12345678]
+lea eax, [edx+0x78]
+lea eax, [eax+0x12345678]
+lea eax, [edx+0x12345678]
+lea edi,  [edi]
+lea eax,  [eax]
+lea eax, [0x12455678]
+lea eax,  [eax+0x78]
+lea eax,[eax+0x12345678]
+
+lea eax,[0x21345678]
+lea edx,[ecx]
+lea ebx,[edx+0x78]
+lea eax,[eax+0x12345678]
