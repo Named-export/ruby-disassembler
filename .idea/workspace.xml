@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e2a6d7a6-ba81-4b71-b3dd-018f9137cb38" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testing/test2" afterPath="$PROJECT_DIR$/testing/test2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/disassmbler.rb" afterPath="$PROJECT_DIR$/disassmbler.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.rb" afterPath="$PROJECT_DIR$/main.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/methods.rb" afterPath="$PROJECT_DIR$/methods.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testing/test2.S" afterPath="$PROJECT_DIR$/testing/test2.S" />
@@ -31,7 +32,7 @@
       <file leaf-file-name="linear_disassembler.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/linear_disassembler.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="138" column="0" selection-start="6678" selection-end="6886" vertical-scroll-proportion="12.846154" vertical-offset="2542" max-vertical-offset="5584">
+            <state line="138" column="0" selection-start="6678" selection-end="6886" vertical-scroll-proportion="59.0" vertical-offset="3742" max-vertical-offset="5584">
               <folding />
             </state>
           </provider>
@@ -40,25 +41,25 @@
       <file leaf-file-name="disassmbler.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/disassmbler.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="6" selection-start="369" selection-end="370" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="1734">
+            <state line="103" column="0" selection-start="3396" selection-end="3396" vertical-scroll-proportion="-31.384615" vertical-offset="935" max-vertical-offset="1887">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="main.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="134" column="12" selection-start="6168" selection-end="6168" vertical-scroll-proportion="-28.26923" vertical-offset="1543" max-vertical-offset="2414">
+            <state line="123" column="18" selection-start="5882" selection-end="5882" vertical-scroll-proportion="0.5706085" vertical-offset="1594" max-vertical-offset="2516">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="methods.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="methods.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/methods.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="337" column="25" selection-start="15863" selection-end="15863" vertical-scroll-proportion="0.5086108" vertical-offset="5286" max-vertical-offset="9469">
+            <state line="196" column="13" selection-start="9366" selection-end="9366" vertical-scroll-proportion="-28.26923" vertical-offset="2597" max-vertical-offset="11594">
               <folding />
             </state>
           </provider>
@@ -271,28 +272,28 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/linear_disassembler.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="0" selection-start="6678" selection-end="6886" vertical-scroll-proportion="12.846154" vertical-offset="2542" max-vertical-offset="5584">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="12" selection-start="6168" selection-end="6168" vertical-scroll-proportion="-28.26923" vertical-offset="1543" max-vertical-offset="2414">
+        <state line="138" column="0" selection-start="6678" selection-end="6886" vertical-scroll-proportion="59.0" vertical-offset="3742" max-vertical-offset="5584">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/disassmbler.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="6" selection-start="369" selection-end="370" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="1734">
+        <state line="103" column="0" selection-start="3396" selection-end="3396" vertical-scroll-proportion="-31.384615" vertical-offset="935" max-vertical-offset="1887">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/methods.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="337" column="25" selection-start="15863" selection-end="15863" vertical-scroll-proportion="0.5086108" vertical-offset="5286" max-vertical-offset="9469">
+        <state line="196" column="13" selection-start="9366" selection-end="9366" vertical-scroll-proportion="-28.26923" vertical-offset="2597" max-vertical-offset="11594">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="123" column="18" selection-start="5882" selection-end="5882" vertical-scroll-proportion="0.5706085" vertical-offset="1594" max-vertical-offset="2516">
           <folding />
         </state>
       </provider>

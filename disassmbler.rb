@@ -60,10 +60,10 @@ rescue Exception => ex
 end
 # step three: begin linear sweep
 puts @hex.inspect
-puts @bits.inspect
+# puts @bits.inspect
 @counter = 0
 @labels = []
-
+@output = ''
 while @counter != @hex.length
   address_location = @counter
   hex = ''
@@ -80,17 +80,26 @@ while @counter != @hex.length
     @counter += 1
   end
   location = "#{address_location.to_i.to_s(16)}:".ljust(10)
-  if @labels.include?(location.split(':').first)
-    puts "Label_0x#{location}"
-  end
+# if @labels.include?(location.split(':').first)
+#   @output << "Label_0x#{location}\n"
+# end
   if !ins.nil?
     address = hex.ljust(40)
     instruction = ins.first.ljust(40)
-    puts "#{location}#{address}#{instruction}"
+    @output << "#{location}#{address}#{instruction}\n"
   else
     instruction = "#{@hex[@counter - 1]}".ljust(40)
-    puts "#{location}#{instruction}invalid instruction "
+    @output << "#{location}#{instruction}invalid instruction\n"
   end
 end
+#put in all the labels
+@labeled_output = ''
+@output.split("\n").each do |line|
+  if @labels.include? line.split(':').first
+    @labeled_output << "Label_0x#{line.split(':').first}\n"
+  end
+  @labeled_output << line << "\n"
+end
+puts @labeled_output
 
 

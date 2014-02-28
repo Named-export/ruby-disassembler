@@ -10,7 +10,8 @@ def jumps opcode, instruction_address
         bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
       end
       if bits[0..0] == '1' # must be a backwards call
-        mem = "-#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}".hex # rewrite mem as neg
+        mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}" # rewrite mem as neg
+        mem = to_signed 32, mem
         address = instruction_address.to_i + 5 + mem
         @labels << address.to_s(16)
         return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 5]
@@ -28,12 +29,49 @@ def jumps opcode, instruction_address
         bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
       end
       if bits[0..0] == '1' # must be a backwards call
-        mem = "-#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}".hex # rewrite mem as neg
+        mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}" # rewrite mem as neg
+        mem = to_signed 32, mem
         address = instruction_address.to_i + 5 + mem
-        return ["#{operator} \t0x#{address.to_s(16)}", true, 5]
+        return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 5]
       else # must be a positive call
         address = instruction_address.to_i + 5 + mem
-        return ["#{operator} \t0x#{address.to_s(16)}", true, 5]
+        return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 5]
+      end
+    when '74'
+      operator = 'JZ'
+      mem = "#{@hex[instruction_address + 1]}".hex
+      bits = mem.to_s(2)
+      while bits.length != 8
+        bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+      end
+      if bits[0..0] == '1' # must be a backwards call
+        mem = "#{@hex[instruction_address + 1]}" # rewrite mem as neg
+        mem = to_signed 8, mem
+        address = instruction_address.to_i + 2 + mem
+        @labels << address.to_s(16)
+        return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 2]
+      else # must be a positive call
+        address = instruction_address.to_i + 2 + mem
+        @labels << address.to_s(16)
+        return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 2]
+      end
+    when '75'
+      operator = 'JNZ'
+      mem = "#{@hex[instruction_address + 1]}".hex
+      bits = mem.to_s(2)
+      while bits.length != 8
+        bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+      end
+      if bits[0..0] == '1' # must be a backwards call
+        mem = "#{@hex[instruction_address + 1]}" # rewrite mem as neg
+        mem = to_signed 8, mem
+        address = instruction_address.to_i + 2 + mem
+        @labels << address.to_s(16)
+        return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 2]
+      else # must be a positive call
+        address = instruction_address.to_i + 2 + mem
+        @labels << address.to_s(16)
+        return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 2]
       end
 
   end
@@ -116,6 +154,46 @@ def multibyte_opcodes opcode, instruction_address
                   return ["#{operator} \t#{@operand[i]}, #{@operand[index]}", true, 3]
                 end
               end
+          end
+        when '84'
+          instruction_address += 1
+          operator = 'JZ'
+          #take starting address plus 0x5 (length of instruction) + value in next 4 bytes
+          mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}".hex
+          bits = mem.to_s(2)
+          while bits.length !=32
+            bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+          end
+          if bits[0..0] == '1' # must be a backwards call
+            mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"# rewrite mem as neg
+            mem = to_signed 32, mem
+            address = instruction_address.to_i + 5 + mem
+            @labels << address.to_s(16)
+            return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 6]
+          else # must be a positive call
+            address = instruction_address.to_i + 5 + mem
+            @labels << address.to_s(16)
+            return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 6]
+          end
+        when '85'
+          instruction_address += 1
+          operator = 'JNZ'
+          #take starting address plus 0x5 (length of instruction) + value in next 4 bytes
+          mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}".hex
+          bits = mem.to_s(2)
+          while bits.length !=32
+            bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+          end
+          if bits[0..0] == '1' # must be a backwards call
+            mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"# rewrite mem as neg
+            mem = to_signed 32, mem
+            address = instruction_address.to_i + 5 + mem
+            @labels << address.to_s(16)
+            return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 6]
+          else # must be a positive call
+            address = instruction_address.to_i + 5 + mem
+            @labels << address.to_s(16)
+            return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 6]
           end
       end
     when 'f3' #popcnt
@@ -374,6 +452,49 @@ def extended_opcodes opcode, instruction_address
             end
           end
       end
+    when 'd1'
+      case reg
+        when '100'
+          operator = 'SHL'
+      end
+      case mod # rm can be 0..7
+        when '00'
+          @zz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              if index == 5
+                mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                return ["#{operator} \t[0x#{mem}], 0x1", true, 6] # format should be operator [next 4 bytes of mem]
+              else
+                return ["#{operator} \t[#{@operand[index]}], 0x1", true, 2] # format should be operator [reg], next 4 bytes: test with 81 00 44 33 22 11 = add [eax], 11223344
+              end
+            end
+          end
+        when '01'
+          @zo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}], 0x1", true, 3] # format should be operator [reg+1byte],
+            end
+          end
+        when '10'
+          @oz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}], 0x1", true, 6] # format should be operator [reg+1byte], next 8 bytes: test with 81 80 44 33 22 11 88 77 66 55 = add dword [eax+0x11223344], 0x55667788
+            end
+          end
+        when '11'
+          @oo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              return ["#{operator} \t#{@operand[index]}, 0x1", true, 2] # format should be operator [reg+8bytes], next 8 bytes: test with 81 C0 44 33 22 11 = add eax, 0x11223344
+            end
+          end
+      end
+
   end
   return ["extended opcodes, nothing caught", false, 1]
 end
@@ -407,8 +528,6 @@ def single_byte opcode, instruction_address
     instruction = (opcode.hex - 64)
     return ["INC \t#{@operand[instruction]}", true, 1]
   end
-
-
   return ["single byte opcodes, nothing caught", false, 1]
 end
 
@@ -548,4 +667,11 @@ def special_case opcode, instruction_address
   end
 end
 
+#takes length number of bits and string of hex; returns signed hex string https://www.ruby-forum.com/topic/138200
+def to_signed length, hex
+  mid = 2**(length-1)
+  max_unsigned = 2**length
+  do_signed = proc {|n| (n>=mid) ? n - max_unsigned : n}
 
+ return do_signed[hex.to_i(16)]
+end

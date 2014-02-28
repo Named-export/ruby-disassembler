@@ -134,3 +134,10 @@ end
 @special_cases << 'c2'
 #jmp e9 ff/4
 @jump_opcodes << 'e9'
+#sal/shl d1/4
+@extended_opcodes << 'd1'
+#jz [0f 84] 74
+@multibyte_opcodes << '0f'
+@jump_opcodes << '74'
+#jnz 75 [0f 85]
+@jump_opcodes << '75'

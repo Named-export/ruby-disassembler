@@ -283,6 +283,7 @@ imul esp,edi,0x12345678
 retf 0x3254
 retf
 
+call poop 
 inc dword[eax]
 inc dword[ecx]
 inc dword[0x12345678]
@@ -300,8 +301,24 @@ push ecx
 
 label_2:
 pop ecx
-jmp 0x000000ff 
+jmp 0x01000000 
 jmp [eax]
 jmp [eax+0x12345678]
 jmp eax
+jz 0x00000006
+poop:
+shl dword[eax], 0x1
+shl dword [eax+0x78],0x1  
+shl dword [eax+0x12345678],0x1 
+shl dword eax, 0x1
+jz mub
+mub:
+pop ecx
+push ecx
+push ecx
+push ecx	
+jz poop
+jnz 0x5
+jnz poop
+jnz 0xd0ffffff
 
