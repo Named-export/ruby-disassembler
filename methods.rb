@@ -313,6 +313,8 @@ def extended_opcodes opcode, instruction_address
           operator = 'DEC'
         when '110'
           operator = 'PUSH'
+        when '000'
+          operator = 'INC'
       end
       case mod # rm can be 0..7
         when '00'
@@ -368,14 +370,19 @@ def single_byte opcode, instruction_address
     return ["POP \t#{@operand[instruction]}", true, 1]
   end
   if %w(48 49 4a 4b 4c 4d 4e 4f).include?(opcode) # handle dec
-    #its a +rd pop operation
+    #its a +rd dec operation
     instruction = (opcode.hex - 72)
     return ["DEC \t#{@operand[instruction]}", true, 1]
   end
   if %w(50 51 52 53 54 55 56 57).include?(opcode) # handle push
-    #its a +rd pop operation
+    #its a +rd push operation
     instruction = (opcode.hex - 80)
     return ["PUSH \t#{@operand[instruction]}", true, 1]
+  end
+  if %w(40 41 42 43 44 45 46 47).include?(opcode) # handle inc
+    #its a +rd inc operation
+    instruction = (opcode.hex - 64)
+    return ["INC \t#{@operand[instruction]}", true, 1]
   end
 
 

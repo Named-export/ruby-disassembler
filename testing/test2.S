@@ -283,3 +283,13 @@ imul eax,[eax+0x12345678],0x34456789
 imul esp,edi,0x12345678
 retf 0x3254
 retf
+
+inc dword[eax]
+inc dword[ecx]
+inc dword[0x12345678]
+inc dword[edx+0x78]
+inc dword[eax+0x12345678]
+inc dword[edx+0x12345678]
+inc eax
+inc ecx
+inc edx
