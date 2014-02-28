@@ -162,3 +162,5 @@ end
 #movzx 0f b7 c8
 #test f7 /0
 @instructions['a9'] = Instruction.new 'TEST', 'EAX', 'imm32', '/d', false
+@instructions['85'] = Instruction.new 'TEST', 'r/m', 'r', '/r', true
+#mul f7 /4

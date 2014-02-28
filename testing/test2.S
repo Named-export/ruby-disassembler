@@ -337,7 +337,6 @@ lea eax,  [eax]
 lea eax, [0x12455678]
 lea eax,  [eax+0x78]
 lea eax,[eax+0x12345678]
-
 lea eax,[0x21345678]
 lea edx,[ecx]
 lea ebx,[edx+0x78]
@@ -351,58 +350,44 @@ sbb dword [ebx], 0x11223344
 sbb dword [esi], 0x11223344
 sbb dword [edi], 0x11223344
 sbb dword [0x11223344], 0x55667788 
-
 sbb dword [eax+0x08],0x11223344
-
 sbb dword [eax+0x11223344],0x55667788 
 sbb dword [ecx+0x11223344],0x55667788 
 sbb dword [edx+0x11223344],0x55667788 
 sbb dword [ebx+0x11223344],0x55667788 
 sbb dword [esi+0x11223344],0x55667788 
-
 sbb eax,0x11223344 
 sbb ecx,0x11223344
 sbb edx,0x11223344
 sbb ebx,0x11223344
 sbb esi,0x11223344
 sbb edi,0x11223344
-
-
 sbb [eax],eax
 sbb [eax],ecx
 sbb [eax],edx
 sbb [eax],ebx
 sbb [eax],esi
 sbb [eax],edi
-
 sbb eax,[eax]
 sbb ecx,[eax]
 sbb edx,[eax]
 sbb ebx,[eax]
 sbb esi,[eax]
 sbb edi,[eax]
-
 sbb [0x12345678], eax
-
 sbb [eax+0x78],eax 
 sbb [edi+0x78],ecx 
-
 sbb eax,[eax+0x78]
 sbb ecx, [edi+0x78]
-
 sbb [eax+0x12345678], eax
 sbb [edi+0x12345678], ecx
-
 sbb esp, ebx
 sbb eax, esi
 sbb ebp, esi
-
 sbb eax, [0x12345678]
 sbb ecx, [0x23455678]
-
 sbb eax, [eax+0x12345678]
 sbb ecx, [edx+0x34567890]
-
 sbb esi, edi
 
 mov eax,0x11223344
@@ -413,54 +398,42 @@ mov dword [ebx], 0x11223344
 mov dword [esi], 0x11223344
 mov dword [edi], 0x11223344
 mov dword [0x11223344], 0x55667788 
-
 mov dword [eax+0x08],0x11223344
-
 mov dword [eax+0x11223344],0x55667788 
 mov dword [ecx+0x11223344],0x55667788 
 mov dword [edx+0x11223344],0x55667788 
 mov dword [ebx+0x11223344],0x55667788 
 mov dword [esi+0x11223344],0x55667788 
-
 mov eax,0x11223344 
 mov ecx,0x11223344
 mov edx,0x11223344
 mov ebx,0x11223344
 mov esi,0x11223344
 mov edi,0x11223344
-
-
 mov [eax],eax
 mov [eax],ecx
 mov [eax],edx
 mov [eax],ebx
 mov [eax],esi
 mov [eax],edi
-
 mov eax,[eax]
 mov ecx,[eax]
 mov edx,[eax]
 mov ebx,[eax]
 mov esi,[eax]
 mov edi,[eax]
-
 mov [eax+0x78],eax 
 mov [edi+0x78],ecx 
-
 mov eax,[eax+0x78]
 mov ecx, [edi+0x78]
-
 mov [eax+0x12345678], eax
 mov [edi+0x12345678], ecx
-
 mov esp, ebx
 mov eax, esi
 mov ebp, esi
 mov ecx, [0x23455678]
-
 mov eax, [eax+0x12345678]
 mov ecx, [edx+0x34567890]
-
 mov esi, edi
 movsb
 movsd
@@ -480,3 +453,32 @@ test dword[edx+0x78], 0x12345678
 test dword[eax+0x12345678], 0x12345678
 test dword[edx+0x12345678], 0x12345678
 test ecx, 0x12345678
+test [eax],eax
+test [eax],ecx
+test [eax],edx
+test [eax],ebx
+test [eax],esi
+test [eax],edi
+test eax,[eax]
+test ecx,[eax]
+test edx,[eax]
+test ebx,[eax]
+test esi,[eax]
+test edi,[eax]
+test [0x12345678], eax
+test [eax+0x78],eax 
+test [edi+0x78],ecx 
+test eax,[eax+0x78]
+test ecx, [edi+0x78]
+test [eax+0x12345678], eax
+test [edi+0x12345678], ecx
+
+mul dword[eax]
+mul dword[ecx]
+mul dword[0x12345678]
+mul dword[edx+0x78]
+mul dword[eax+0x12345678]
+mul dword[edx+0x12345678]
+mul eax
+mul ecx
+mul edx

@@ -339,6 +339,8 @@ def extended_opcodes opcode, instruction_address
           operator = 'IDIV'
         when '101'
           operator = 'IMUL'
+        when '100'
+          operator = 'MUL'
         when '000'
           operator = 'TEST'
           case mod # rm can be 0..7
