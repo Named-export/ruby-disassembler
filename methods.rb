@@ -346,6 +346,8 @@ def extended_opcodes opcode, instruction_address
           operator = 'IMUL'
         when '100'
           operator = 'MUL'
+        when '011'
+          operator = 'NEG'
         when '000'
           operator = 'TEST'
           case mod # rm can be 0..7

@@ -536,3 +536,13 @@ xor ecx, [0x23455678]
 xor eax, [eax+0x12345678]
 xor ecx, [edx+0x34567890]
 xor esi, edi
+
+neg dword[eax]
+neg dword[ecx]
+neg dword[0x12345678]
+neg dword[edx+0x78]
+neg dword[eax+0x12345678]
+neg dword[edx+0x12345678]
+neg eax
+neg ecx
+neg edx

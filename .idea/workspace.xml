@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2a6d7a6-ba81-4b71-b3dd-018f9137cb38" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testing/test2" afterPath="$PROJECT_DIR$/testing/test2" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/definitions.rb" afterPath="$PROJECT_DIR$/definitions.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/methods.rb" afterPath="$PROJECT_DIR$/methods.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testing/test2.S" afterPath="$PROJECT_DIR$/testing/test2.S" />
     </list>
     <ignored path="laughing-batman.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,39 +35,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="definitions.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="definitions.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/definitions.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="169" column="17" selection-start="7341" selection-end="7341" vertical-scroll-proportion="0.96209586" vertical-offset="2010" max-vertical-offset="2975">
+            <state line="167" column="33" selection-start="7216" selection-end="7216" vertical-scroll-proportion="0.0" vertical-offset="2078" max-vertical-offset="2992">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="methods.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="methods.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/methods.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="290" column="26" selection-start="13206" selection-end="13206" vertical-scroll-proportion="-17.076923" vertical-offset="1596" max-vertical-offset="4726">
+            <state line="349" column="25" selection-start="16537" selection-end="16537" vertical-scroll-proportion="0.5476464" vertical-offset="2566" max-vertical-offset="5457">
               <folding>
                 <element signature="e#40#3568#0" expanded="false" />
                 <element signature="e#5446#5623#0" expanded="false" />
                 <element signature="e#5676#10207#0" expanded="false" />
-                <element signature="e#13315#16277#0" expanded="false" />
-                <element signature="e#16550#19493#0" expanded="false" />
-                <element signature="e#21469#21533#0" expanded="false" />
-                <element signature="e#21540#23478#0" expanded="false" />
-                <element signature="e#23709#25647#0" expanded="false" />
-                <element signature="e#25668#25824#0" expanded="false" />
-                <element signature="e#25831#27794#0" expanded="false" />
-                <element signature="e#27815#27879#0" expanded="false" />
-                <element signature="e#30011#30262#0" expanded="false" />
-                <element signature="e#30265#30451#0" expanded="false" />
-                <element signature="e#30454#30640#0" expanded="false" />
-                <element signature="e#30643#30832#0" expanded="false" />
-                <element signature="e#30835#31021#0" expanded="false" />
-                <element signature="e#31024#31360#0" expanded="false" />
-                <element signature="e#31670#35592#0" expanded="false" />
-                <element signature="e#35721#40801#0" expanded="false" />
+                <element signature="e#16596#19539#0" expanded="false" />
+                <element signature="e#21515#21579#0" expanded="false" />
+                <element signature="e#21586#23524#0" expanded="false" />
+                <element signature="e#23755#25693#0" expanded="false" />
+                <element signature="e#25714#25870#0" expanded="false" />
+                <element signature="e#25877#27840#0" expanded="false" />
+                <element signature="e#27861#27925#0" expanded="false" />
+                <element signature="e#30057#30308#0" expanded="false" />
+                <element signature="e#30311#30497#0" expanded="false" />
+                <element signature="e#30500#30686#0" expanded="false" />
+                <element signature="e#30689#30878#0" expanded="false" />
+                <element signature="e#30881#31067#0" expanded="false" />
+                <element signature="e#31070#31406#0" expanded="false" />
+                <element signature="e#31716#35638#0" expanded="false" />
+                <element signature="e#35767#40847#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -90,8 +87,8 @@
       <list>
         <option value="$PROJECT_DIR$/main.rb" />
         <option value="$PROJECT_DIR$/disassmbler.rb" />
-        <option value="$PROJECT_DIR$/methods.rb" />
         <option value="$PROJECT_DIR$/definitions.rb" />
+        <option value="$PROJECT_DIR$/methods.rb" />
       </list>
     </option>
   </component>
@@ -295,37 +292,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/definitions.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="167" column="33" selection-start="7216" selection-end="7216" vertical-scroll-proportion="0.0" vertical-offset="2078" max-vertical-offset="2992">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/methods.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="290" column="26" selection-start="13206" selection-end="13206" vertical-scroll-proportion="-17.076923" vertical-offset="1596" max-vertical-offset="4726">
+        <state line="349" column="25" selection-start="16537" selection-end="16537" vertical-scroll-proportion="0.5476464" vertical-offset="2566" max-vertical-offset="5457">
           <folding>
             <element signature="e#40#3568#0" expanded="false" />
             <element signature="e#5446#5623#0" expanded="false" />
             <element signature="e#5676#10207#0" expanded="false" />
-            <element signature="e#13315#16277#0" expanded="false" />
-            <element signature="e#16550#19493#0" expanded="false" />
-            <element signature="e#21469#21533#0" expanded="false" />
-            <element signature="e#21540#23478#0" expanded="false" />
-            <element signature="e#23709#25647#0" expanded="false" />
-            <element signature="e#25668#25824#0" expanded="false" />
-            <element signature="e#25831#27794#0" expanded="false" />
-            <element signature="e#27815#27879#0" expanded="false" />
-            <element signature="e#30011#30262#0" expanded="false" />
-            <element signature="e#30265#30451#0" expanded="false" />
-            <element signature="e#30454#30640#0" expanded="false" />
-            <element signature="e#30643#30832#0" expanded="false" />
-            <element signature="e#30835#31021#0" expanded="false" />
-            <element signature="e#31024#31360#0" expanded="false" />
-            <element signature="e#31670#35592#0" expanded="false" />
-            <element signature="e#35721#40801#0" expanded="false" />
+            <element signature="e#16596#19539#0" expanded="false" />
+            <element signature="e#21515#21579#0" expanded="false" />
+            <element signature="e#21586#23524#0" expanded="false" />
+            <element signature="e#23755#25693#0" expanded="false" />
+            <element signature="e#25714#25870#0" expanded="false" />
+            <element signature="e#25877#27840#0" expanded="false" />
+            <element signature="e#27861#27925#0" expanded="false" />
+            <element signature="e#30057#30308#0" expanded="false" />
+            <element signature="e#30311#30497#0" expanded="false" />
+            <element signature="e#30500#30686#0" expanded="false" />
+            <element signature="e#30689#30878#0" expanded="false" />
+            <element signature="e#30881#31067#0" expanded="false" />
+            <element signature="e#31070#31406#0" expanded="false" />
+            <element signature="e#31716#35638#0" expanded="false" />
+            <element signature="e#35767#40847#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/definitions.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="169" column="17" selection-start="7341" selection-end="7341" vertical-scroll-proportion="0.96209586" vertical-offset="2010" max-vertical-offset="2975">
-          <folding />
         </state>
       </provider>
     </entry>
