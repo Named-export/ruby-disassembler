@@ -49,7 +49,7 @@
       <file leaf-file-name="main.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="132" column="27" selection-start="6131" selection-end="6131" vertical-scroll-proportion="-29.576923" vertical-offset="1475" max-vertical-offset="2380">
+            <state line="134" column="12" selection-start="6168" selection-end="6168" vertical-scroll-proportion="-28.26923" vertical-offset="1543" max-vertical-offset="2414">
               <folding />
             </state>
           </provider>
@@ -58,7 +58,7 @@
       <file leaf-file-name="methods.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/methods.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="477" column="42" selection-start="22696" selection-end="22696" vertical-scroll-proportion="0.5476464" vertical-offset="7632" max-vertical-offset="9112">
+            <state line="337" column="25" selection-start="15863" selection-end="15863" vertical-scroll-proportion="0.5086108" vertical-offset="5286" max-vertical-offset="9469">
               <folding />
             </state>
           </provider>
@@ -276,6 +276,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="134" column="12" selection-start="6168" selection-end="6168" vertical-scroll-proportion="-28.26923" vertical-offset="1543" max-vertical-offset="2414">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/disassmbler.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="6" selection-start="369" selection-end="370" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="1734">
@@ -283,16 +290,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="27" selection-start="6131" selection-end="6131" vertical-scroll-proportion="-29.576923" vertical-offset="1475" max-vertical-offset="2380">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/methods.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="477" column="42" selection-start="22696" selection-end="22696" vertical-scroll-proportion="0.5476464" vertical-offset="7632" max-vertical-offset="9112">
+        <state line="337" column="25" selection-start="15863" selection-end="15863" vertical-scroll-proportion="0.5086108" vertical-offset="5286" max-vertical-offset="9469">
           <folding />
         </state>
       </provider>

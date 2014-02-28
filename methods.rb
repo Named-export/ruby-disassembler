@@ -1,6 +1,8 @@
 def jumps opcode, instruction_address
   case opcode
     when 'e8' # call
+      operator = 'CALL'
+
       #take starting address plus 0x5 (length of instruction) + value in next 4 bytes
       mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}".hex
       bits = mem.to_s(2)
@@ -11,17 +13,34 @@ def jumps opcode, instruction_address
         mem = "-#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}".hex # rewrite mem as neg
         address = instruction_address.to_i + 5 + mem
         @labels << address.to_s(16)
-        return ["CALL \tLabel_0x#{address.to_s(16)}", true, 5]
+        return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 5]
       else # must be a positive call
         address = instruction_address.to_i + 5 + mem
         @labels << address.to_s(16)
-        return ["CALL \tLabel_0x#{address.to_s(16)}", true, 5]
+        return ["#{operator} \tLabel_0x#{address.to_s(16)}", true, 5]
+      end
+    when 'e9'
+      operator = 'JMP'
+      #take starting address plus 0x5 (length of instruction) + value in next 4 bytes
+      mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}".hex
+      bits = mem.to_s(2)
+      while bits.length !=32
+        bits.to_s.insert(0, '0') # pad the left with zeros for no false negatives
+      end
+      if bits[0..0] == '1' # must be a backwards call
+        mem = "-#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}".hex # rewrite mem as neg
+        address = instruction_address.to_i + 5 + mem
+        return ["#{operator} \t0x#{address.to_s(16)}", true, 5]
+      else # must be a positive call
+        address = instruction_address.to_i + 5 + mem
+        return ["#{operator} \t0x#{address.to_s(16)}", true, 5]
       end
 
   end
 
   return["Jumps Invalid opcode:#{opcode}", false, 1]
 end
+
 
 # handles the special cases of default EAX in one of the src or dest
 def default_eax opcode, instruction_address
@@ -315,6 +334,8 @@ def extended_opcodes opcode, instruction_address
           operator = 'PUSH'
         when '000'
           operator = 'INC'
+        when '100'
+          operator = 'JMP'
       end
       case mod # rm can be 0..7
         when '00'

@@ -49,7 +49,6 @@ add [edi+0x78],ecx
 add eax,[eax+0x78]
 add ecx, [edi+0x78]
 
-
 add [eax+0x12345678], eax
 add [edi+0x12345678], ecx
 
@@ -295,4 +294,14 @@ inc ecx
 inc edx
 
 retn 0x3254
-retn
+call label_2
+
+push ecx
+
+label_2:
+pop ecx
+jmp 0x000000ff 
+jmp [eax]
+jmp [eax+0x12345678]
+jmp eax
+

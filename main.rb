@@ -132,3 +132,5 @@ end
 #retn c3 c2
 @single_byte_opcodes << 'c3'
 @special_cases << 'c2'
+#jmp e9 ff/4
+@jump_opcodes << 'e9'
