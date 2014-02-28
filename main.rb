@@ -149,3 +149,8 @@ end
 @instructions['1d'] = Instruction.new 'SBB', 'EAX', 'imm32', '/d', false
 @instructions['19'] = Instruction.new 'SBB', 'r/m', 'r', '/r', true
 @instructions['1b'] = Instruction.new 'SBB', 'r', 'r/m', '/r', true
+#mov 89 8b b8 +rd c7/0
+@instructions['89'] = Instruction.new 'MOV', 'r/m', 'r', '/r', true
+@instructions['8b'] = Instruction.new 'MOV', 'r', 'r/m', '/r', true
+@single_byte_opcodes << 'b8' << 'b9' << 'ba' << 'bb' << 'bc' << 'bd' << 'be' << 'bf'
+@extended_opcodes << 'c7'

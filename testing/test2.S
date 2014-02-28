@@ -404,3 +404,61 @@ sbb eax, [eax+0x12345678]
 sbb ecx, [edx+0x34567890]
 
 sbb esi, edi
+
+mov eax,0x11223344
+mov dword [eax], 0x11223344
+mov dword [ecx], 0x11223344
+mov dword [edx], 0x11223344
+mov dword [ebx], 0x11223344
+mov dword [esi], 0x11223344
+mov dword [edi], 0x11223344
+mov dword [0x11223344], 0x55667788 
+
+mov dword [eax+0x08],0x11223344
+
+mov dword [eax+0x11223344],0x55667788 
+mov dword [ecx+0x11223344],0x55667788 
+mov dword [edx+0x11223344],0x55667788 
+mov dword [ebx+0x11223344],0x55667788 
+mov dword [esi+0x11223344],0x55667788 
+
+mov eax,0x11223344 
+mov ecx,0x11223344
+mov edx,0x11223344
+mov ebx,0x11223344
+mov esi,0x11223344
+mov edi,0x11223344
+
+
+mov [eax],eax
+mov [eax],ecx
+mov [eax],edx
+mov [eax],ebx
+mov [eax],esi
+mov [eax],edi
+
+mov eax,[eax]
+mov ecx,[eax]
+mov edx,[eax]
+mov ebx,[eax]
+mov esi,[eax]
+mov edi,[eax]
+
+mov [eax+0x78],eax 
+mov [edi+0x78],ecx 
+
+mov eax,[eax+0x78]
+mov ecx, [edi+0x78]
+
+mov [eax+0x12345678], eax
+mov [edi+0x12345678], ecx
+
+mov esp, ebx
+mov eax, esi
+mov ebp, esi
+mov ecx, [0x23455678]
+
+mov eax, [eax+0x12345678]
+mov ecx, [edx+0x34567890]
+
+mov esi, edi

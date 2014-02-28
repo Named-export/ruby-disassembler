@@ -501,6 +501,47 @@ def extended_opcodes opcode, instruction_address
             end
           end
       end
+    when 'c7'
+      case reg
+        when '000'
+          operator = 'MOV'
+      end
+      case mod # rm can be 0..7
+        when '00'
+          @zz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              if index == 5
+                mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                next_mem = "#{@hex[instruction_address + 9]}#{@hex[instruction_address + 8]}#{@hex[instruction_address + 7]}#{@hex[instruction_address + 6]}"
+                return ["#{operator} \t[0x#{mem}], 0x#{next_mem}", true, 10]
+              else
+                mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+                return ["#{operator} \t[#{@operand[index]}], 0x#{mem}", true, 6] # test with add (01 30) should be add [eax], esi
+              end
+            end
+          end
+        when '01'
+          @zo.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 2]}"
+              next_mem = "#{@hex[instruction_address + 6]}#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}"
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{next_mem}", true, 7]
+            end
+          end
+
+        when '10'
+          @oz.each_with_index do |column, i|
+            if column.include?(modrm)
+              index = column.index(modrm)
+              mem = "#{@hex[instruction_address + 5]}#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}"
+              next_mem = "#{@hex[instruction_address + 9]}#{@hex[instruction_address + 8]}#{@hex[instruction_address + 7]}#{@hex[instruction_address + 6]}"
+              return ["#{operator} \t[#{@operand[index]}+0x#{mem}], #{next_mem}", true, 10]
+            end
+          end
+        when '11'
+      end
 
   end
   return ["extended opcodes, nothing caught", false, 1]
@@ -534,6 +575,12 @@ def single_byte opcode, instruction_address
     #its a +rd inc operation
     instruction = (opcode.hex - 64)
     return ["INC \t#{@operand[instruction]}", true, 1]
+  end
+  if %w(b8 b9 ba bb bc bd be bf).include?(opcode) # handle mov
+    #its a +rd inc operation
+    instruction = (opcode.hex - 184)
+    mem = "#{@hex[instruction_address + 4]}#{@hex[instruction_address + 3]}#{@hex[instruction_address + 2]}#{@hex[instruction_address + 1]}"
+    return ["MOV \t#{@operand[instruction]}, #{mem}", true, 5]
   end
   return ["single byte opcodes, nothing caught", false, 1]
 end
