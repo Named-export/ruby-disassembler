@@ -463,6 +463,8 @@ def extended_opcodes opcode, instruction_address
           operator = 'SHL'
         when '111'
           operator = 'SAR'
+        when '101'
+          operator = 'SHR'
       end
       case mod # rm can be 0..7
         when '00'
@@ -555,6 +557,10 @@ def single_byte opcode, instruction_address
       return['RETF', true, 1]
     when 'c3'
       return['RETN', true, 1]
+    when 'a4'
+      return['MOVSB', true, 1]
+    when 'a5'
+      return['MOVSD', true, 1]
   end
   if %w(58 59 5a 5b 5c 5d 5e 5f).include?(opcode) # handle pop
     #its a +rd pop operation

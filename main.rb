@@ -154,3 +154,8 @@ end
 @instructions['8b'] = Instruction.new 'MOV', 'r', 'r/m', '/r', true
 @single_byte_opcodes << 'b8' << 'b9' << 'ba' << 'bb' << 'bc' << 'bd' << 'be' << 'bf'
 @extended_opcodes << 'c7'
+#shl d1 /4
+#movsb/movsd a4 a5
+@single_byte_opcodes << 'a4'
+@single_byte_opcodes << 'a5'
+#shr d1/5

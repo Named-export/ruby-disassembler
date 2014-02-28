@@ -321,10 +321,10 @@ jz poop
 jnz 0x5
 jnz poop
 jnz 0xd0ffffff
-shr dword[eax], 0x1
-shr dword [eax+0x78],0x1  
-shr dword [eax+0x12345678],0x1 
-shr dword eax, 0x1
+sar dword[eax], 0x1
+sar dword [eax+0x78],0x1  
+sar dword [eax+0x12345678],0x1 
+sar dword eax, 0x1
 
 lea eax, [eax]
 lea eax, [ecx]
@@ -462,3 +462,10 @@ mov eax, [eax+0x12345678]
 mov ecx, [edx+0x34567890]
 
 mov esi, edi
+movsb
+movsd
+
+shr dword[eax], 0x1
+shr dword [eax+0x78],0x1  
+shr dword [eax+0x12345678],0x1 
+shr dword eax, 0x1
