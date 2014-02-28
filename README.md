@@ -5,24 +5,25 @@ An unfinished ruby disassembler for I386 written and tested with ruby 1.9.3p484 
 File structure is as follows:
 <pre>
 .
-`-- laughing-batman
-    |-- lib
-    |   |-- definitions.rb
-    |   |-- disassembler.rb
-    |   `-- methods.rb
-    |-- LICENSE
-    |-- README.md
-    `-- testing
-        |-- ex2
-        |-- ex2.S
-        |-- example1.o
-        |-- example1.S
-        |-- example2.o
-        |-- example2.S
-        |-- test
-        |-- test2
-        |-- test2.S
-        `-- test.S
+|-- lib
+|   |-- definitions.rb
+|   |-- disassembler.rb
+|   `-- methods.rb
+|-- LICENSE
+|-- README.md
+|-- testing
+|   |-- ex2
+|   |-- ex2.S
+|   |-- example1.o
+|   |-- example1.S
+|   |-- example2.o
+|   |-- example2.S
+|   |-- test
+|   |-- test2
+|   |-- test2.S
+|   `-- test.S
+`-- VERSION.txt
+
 </pre>
 
 ###Using laughing-batman

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2a6d7a6-ba81-4b71-b3dd-018f9137cb38" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testing/test.S" afterPath="$PROJECT_DIR$/testing/test.S" />
     </list>
     <ignored path="laughing-batman.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,10 +26,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="definitions.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="definitions.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/definitions.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="44" selection-start="800" selection-end="800" vertical-scroll-proportion="0.29276693" vertical-offset="0" max-vertical-offset="3009">
+            <state line="59" column="46" selection-start="2616" selection-end="2616" vertical-scroll-proportion="-20.923077" vertical-offset="459" max-vertical-offset="3009">
               <folding />
             </state>
           </provider>
@@ -37,7 +38,16 @@
       <file leaf-file-name="disassembler.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/disassembler.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="7" selection-start="0" selection-end="3693" vertical-scroll-proportion="0.0" vertical-offset="790" max-vertical-offset="1955">
+            <state line="68" column="26" selection-start="2486" selection-end="2486" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1955">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="0" selection-start="468" selection-end="468" vertical-scroll-proportion="0.5272953" vertical-offset="0" max-vertical-offset="806">
               <folding />
             </state>
           </provider>
@@ -72,14 +82,15 @@
         <option value="$PROJECT_DIR$/methods.rb" />
         <option value="$PROJECT_DIR$/lib/disassembler.rb" />
         <option value="$PROJECT_DIR$/lib/definitions.rb" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1066" />
+    <option name="x" value="991" />
+    <option name="y" value="10" />
+    <option name="width" value="815" />
+    <option name="height" value="1000" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -235,7 +246,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="7" />
+    <frame x="991" y="10" width="815" height="1000" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -243,7 +254,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34874505" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -282,16 +293,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/disassembler.rb">
+    <entry file="file://$PROJECT_DIR$/lib/definitions.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="7" selection-start="0" selection-end="3693" vertical-scroll-proportion="0.0" vertical-offset="790" max-vertical-offset="1955">
+        <state line="59" column="46" selection-start="2616" selection-end="2616" vertical-scroll-proportion="-20.923077" vertical-offset="459" max-vertical-offset="3009">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/definitions.rb">
+    <entry file="file://$PROJECT_DIR$/lib/disassembler.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="44" selection-start="800" selection-end="800" vertical-scroll-proportion="0.29276693" vertical-offset="0" max-vertical-offset="3009">
+        <state line="68" column="26" selection-start="2486" selection-end="2486" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1955">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="0" selection-start="468" selection-end="468" vertical-scroll-proportion="0.5272953" vertical-offset="0" max-vertical-offset="806">
           <folding />
         </state>
       </provider>

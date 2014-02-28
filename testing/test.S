@@ -59,3 +59,12 @@ dec ecx
 idiv eax
 idiv ecx
 imul eax 
+
+add eax
+add ecx
+add edx
+add ebx
+add esi
+add edi
+
+pop [eax]
