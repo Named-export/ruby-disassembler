@@ -39,3 +39,5 @@ File structure is as follows:
   <li>The <b>definitions.rb</b> file provides definitions for the format of the instructions as well as the operand table from http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf</li>
   <li>The <b>methods.rb</b> file implements the parsing and analyzing of the opcodes.</li>
   </ul>
+
+foo
